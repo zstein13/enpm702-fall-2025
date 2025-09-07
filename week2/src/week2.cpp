@@ -4,11 +4,16 @@
 #define SQUARE(x) ((x) * (x))
 #define PI 3.14159
 
+// Declare the function (tells compiler it exists)
+// void undefined_function();
+
 int main() {
     //==============
     //======== 1
     //==============
     std::cout << "hello, world\n";
+    // undefined_function();
+    return 0;
 
     //==============
     //======== 2
@@ -30,6 +35,13 @@ int main() {
     //==============
     //======== 4
     //==============
+    //     int number = 20;
+    //     std::cout << &number << '\n';
+    //     std::cout << number << '\n';
+
+    //==============
+    //======== 5
+    //==============
     //     int number;                  // declaration
     //     number = 1;                  // assignment
     //     std::cout << number << '\n'; // 1
@@ -37,7 +49,7 @@ int main() {
     //     std::cout << number << '\n'; // 2
 
     //==============
-    //======== 5
+    //======== 6
     //==============
     // int a{};                                                      // initialized to 0
     // std::cout << a << '\n';                                       // 0
@@ -46,20 +58,20 @@ int main() {
     // std::cout << std::fixed << std::setprecision(1) << b << '\n'; // 0.0
 
     //==============
-    //======== 6
+    //======== 7
     //==============
     // int a{};   // the value of a will be replaced later
     // int b{0};  // we plan to use the value of b
     // a = b + 3; // value of b is used and a is assigned a new value
 
     //==============
-    //======== 7
+    //======== 8
     //==============
     // int number;                  // uninitialized
     // std::cout << number << '\n'; // garbage
 
     //==============
-    //======== 8
+    //======== 9
     //==============
     // std::cout << "Type\t\tSize (bytes)\tMin Value\t\tMax Value\n";
     // std::cout << "--------------------------------------------------------------------\n";
@@ -104,7 +116,7 @@ int main() {
     //           << "\t\t" << std::numeric_limits<unsigned long long>::min()
     //           << "\t\t\t" << std::numeric_limits<unsigned long long>::max() << '\n';
 
-    //</> 8-1
+    //</> 9-1
     //=====================
     // std::cout << std::fixed << std::scientific << std::setprecision(10);
     // // std::scientific -- Display the result in scientific notation
@@ -131,7 +143,7 @@ int main() {
     //           << "\t\t" << std::numeric_limits<long double>::max() << '\n';
 
     //==============
-    //======== 9-1
+    //======== 10-1
     //==============
     // std::cout << 1.05 << '\n';  // this is a double
     // std::cout << 1.05f << '\n'; // this is a float
@@ -139,7 +151,7 @@ int main() {
     // std::cout << 1.0f << '\n';  // OK
 
     //==============
-    //======== 9-2
+    //======== 10-2
     //==============
     // std::cout << std::setprecision(9);             // show 9 digits of precision
     // std::cout << 0.33333333333f << '\n';           // 0.333333343
@@ -147,7 +159,7 @@ int main() {
     // std::cout << 8.3642343534322323232322 << '\n'; // 8.36423435343223 (15 digits)
 
     //==============
-    //======== 10-1
+    //======== 11-1
     //==============
     // bool is_today_sunny{true};
     // bool is_today_cloudy{false};
@@ -155,7 +167,7 @@ int main() {
     // std::cout << is_today_cloudy << '\n'; // 0
 
     //==============
-    //======== 10-2
+    //======== 11-2
     //==============
     // bool is_today_sunny{true};
     // bool is_today_cloudy{false};
@@ -167,7 +179,7 @@ int main() {
     // std::cout << std::noboolalpha << false << '\n';         // 0
 
     //==============
-    //======== 11
+    //======== 12
     //==============
     // int a{1};         // initialize variable a with literal value 1
     // int b{2 + 3 - 1}; // initialize variable b with computed value 4
@@ -175,7 +187,7 @@ int main() {
     // int d{b};         // initialize variable d with variable value 4
 
     //==============
-    //======== 12
+    //======== 13
     //==============
     // double num1 = 1.5;
     // int num2 = num1;                                                // 1.5 converted to 1
@@ -184,13 +196,13 @@ int main() {
     // std::cout << "Value of num2 : " << num2 << '\n';
 
     //==============
-    //======== 13-1
+    //======== 14-1
     //==============
     // double num1{5.0};   // no promotion necessary
     // double num2{4.0f};  // float promoted to double
 
     //==============
-    //======== 13-2
+    //======== 14-2
     //==============
     // short s = 1;
     // int num1 = s;                    // short promoted to int
@@ -202,7 +214,7 @@ int main() {
     // std::cout << sizeof(s) << '\n';  // 2
 
     //==============
-    //======== 14
+    //======== 15
     //==============
     // int a;
     // int b = 3.2;
@@ -214,7 +226,7 @@ int main() {
     // std::cout << d << '\n';
 
     //==============
-    //======== 15
+    //======== 16
     //==============
     // int b = static_cast<int> (3.2);
     // std::cout << b << '\n';
@@ -224,7 +236,7 @@ int main() {
     // std::cout << d << '\n';
 
     //==============
-    //======== 16
+    //======== 17
     //==============
     // int i = 42;
     // double d = 3.14;
@@ -245,7 +257,7 @@ int main() {
     // std::cout << "Value of result: " << us + ul << '\n';                // 700010
 
     //==============
-    //======== 17
+    //======== 18
     //==============
     // short s1 = 100;
     // char c = 50;
@@ -263,7 +275,7 @@ int main() {
     // std::cout << "Value of result: " << b2 + s2 << '\n'; // 32767
 
     //==============
-    //======== 18
+    //======== 19
     //==============
     // int a{3};
     // int b{2};
@@ -271,7 +283,7 @@ int main() {
     // std::cout << "Value of result: " << a / b << '\n';
 
     //==============
-    //======== 19
+    //======== 20
     //==============
     // const double pi;
 
@@ -280,12 +292,12 @@ int main() {
     // pi = 3.14;
 
     //==============
-    //======== 20
+    //======== 21
     //==============
     // std::cout << "pi: " << PI << '\n';  // preprocessor replaces PI with 3.14159
 
     //==============
-    //======== 21
+    //======== 22
     //==============
     // int a = 5;
     // double result = SQUARE(a);
@@ -295,8 +307,9 @@ int main() {
     // double area = PI * 10 * 10;
     // std::cout << area << '\n';
 
-    //</> 22
-    //=====================
+    //==============
+    //======== 23
+    //==============
     // const int a{1};              // a is a compile-time const
     // const int b{2};              // b is a compile-time const
     // std::cout << a + b << '\n';  // a + b is a compile-time expression
@@ -309,8 +322,9 @@ int main() {
     // const int b{input};          // b is a run-time const
     // std::cout << a + b << '\n';  // a + b is a run-time expression
 
-    //</> 23
-    //=====================
+    //==============
+    //======== 24
+    //==============
     // constexpr int a{1};  // OK: a is a compile-time const
     // constexpr int b{2};  // OK: b is a compile-time const
     // std::cout << "Enter an integer: ";
@@ -318,8 +332,9 @@ int main() {
     // std::cin >> input;
     // constexpr int c{input};  // error
 
-    //</> 24
-    //=====================
+    //==============
+    //======== 25
+    //==============
     // auto a{3.0};    // 3.0 is a double literal, so variable a will be type double
     // std::cout << "Type of a: " << typeid(a).name() << '\n'; // double
     // auto b{1 + 2};  // 1 + 2 evaluates to an int, so b will be type int
@@ -327,8 +342,9 @@ int main() {
     // auto c{b};      // variable b is an int, so c will be type int
     // std::cout << "Type of c: " << typeid(c).name() << '\n';  // int
 
-    //</> 25
-    //=====================
+    //==============
+    //======== 26
+    //==============
     // const int a{5};  // a is const
     // auto b{a};       // b is int (const is dropped)
     // b = 1;           // OK
@@ -338,8 +354,9 @@ int main() {
     // constexpr auto b{a};  // b is const int
     // b = 1;                // error: assignment of read-only variable 'b'
 
-    //</> 26
-    //=====================
+    //==============
+    //======== 27
+    //==============
     // int a{};
     // {  // start nested block 1
     //     int b{};
@@ -348,8 +365,9 @@ int main() {
     //     }  // end nested block 2
     // }  // end nested block 1
 
-    //</> 27
-    //=====================
+    //==============
+    //======== 28
+    //==============
     // int a{1};
     // {
     //     int b{2};
@@ -359,39 +377,46 @@ int main() {
     // // std::cout << b << '\n';  // error: b is out of scope
     // int c{3};
 
-    //</> 28
-    //=====================
+    //==============
+    //======== 29
+    //==============
     // std::cout << global_var << '\n';  // 1
     // global_var++;                     // 2
     // my_function();                    // 3
     // std::cout << global_var << '\n';  // 3
 
-    //</> 29
-    //=====================
+    //==============
+    //======== 30
+    //==============
     // std::cout << &global_x << '\n';
     // std::cout << &global_y << '\n';
 
-    //</> 30
-    //=====================
+    //==============
+    //======== 31
+    //==============
     // std::cout << MyNamespace::x << '\n';  // 3
     // std::cout << MyNamespace::y << '\n';  // 4
 
-    //</> 31
-    //=====================
+    //==============
+    //======== 32
+    //==============
     // std::cout << x << '\n';  // no need to use MyNamespace::x
     // std::cout << y << '\n';  // no need to use MyNamespace::y
 
-    //</> 32
-    //=====================
+    //==============
+    //======== 33
+    //==============
     // std::cout << x << '\n';  // no need to use MyNamespace::x
     // std::cout << y << '\n';  // error: ‘y’ was not declared in this scope
 
-    //</> 33
-    //=====================
+    //==============
+    //======== 34
+    //==============
     // cout << cout << '\n';
 
-    //</> 34
-    //=====================
+    //==============
+    //======== 35
+    //==============
     // Use the custom types
     // Integer a{10};
     // Float b{20.5f};
