@@ -12,8 +12,6 @@ int main() {
     //======== 1
     //==============
     std::cout << "hello, world\n";
-    // undefined_function();
-    return 0;
 
     //==============
     //======== 2
@@ -28,25 +26,25 @@ int main() {
     //==============
     //======== 3
     //==============
-    //     int number = 20;
-    //     std::cout << sizeof(number) << '\n'; // 4 bytes on my machine
-    //     std::cout << sizeof(int) << '\n';    // 4 bytes on my machine
+        // int number = 20;
+        // std::cout << sizeof(number) << '\n'; // 4 bytes on my machine
+        // std::cout << sizeof(int) << '\n';    // 4 bytes on my machine
 
     //==============
     //======== 4
     //==============
-    //     int number = 20;
-    //     std::cout << &number << '\n';
-    //     std::cout << number << '\n';
+        // int number = 20;
+        // std::cout << &number << '\n'; // Outputs the memory address of variable number
+        // std::cout << number << '\n';
 
     //==============
     //======== 5
     //==============
-    //     int number;                  // declaration
-    //     number = 1;                  // assignment
-    //     std::cout << number << '\n'; // 1
-    //     number = 2;                  // assignment
-    //     std::cout << number << '\n'; // 2
+        // int number;                  // declaration
+        // number = 1;                  // assignment
+        // std::cout << "Number " << number << '\n'; // 1
+        // number = 2;                  // assignment
+        // std::cout << number << '\n'; // 2
 
     //==============
     //======== 6
