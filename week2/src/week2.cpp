@@ -192,6 +192,7 @@ int main() {
     // std::cout << "Value of num1 : " << num1 << '\n';                // 1.5
     // std::cout << "Type of num1 : " << typeid(num1).name() << '\n';  // double
     // std::cout << "Value of num2 : " << num2 << '\n';
+    // std::cout << "Type of num2 : " << typeid(num2).name() << '\n';
 
     //==============
     //======== 14-1
@@ -217,7 +218,7 @@ int main() {
     // int a;
     // int b = 3.2;
     // int c(1.3);
-    // int d{3.5};
+    // int d{static_cast<int> (3.5)};
     // std::cout << a << '\n';
     // std::cout << b << '\n';
     // std::cout << c << '\n';
@@ -275,10 +276,10 @@ int main() {
     //==============
     //======== 19
     //==============
-    // int a{3};
-    // int b{2};
-    // std::cout << "Type of result: " << typeid(a / b).name() << '\n';
-    // std::cout << "Value of result: " << a / b << '\n';
+    int a{3};
+    int b{2};
+    std::cout << "Type of result: " << typeid(a / b).name() << '\n';
+    std::cout << "Value of result: " << static_cast<double> (a) / b << '\n';
 
     //==============
     //======== 20
