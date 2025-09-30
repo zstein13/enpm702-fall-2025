@@ -15,20 +15,25 @@
 
 int main() {
   // //======== 1
-  // int a{10};
-  // int *p{&a};
-  // std::cout << &a << '\n';
-  // std::cout << typeid(&a).name() << '\n';
-  // std::cout << p << '\n';
-  // std::cout << typeid(p).name() << '\n';
+  int a{10};
+  int *p{&a};
+  std::cout << &a << '\n';
+  std::cout << typeid(&a).name() << '\n';
+  std::cout << *p << '\n';
+  std::cout << typeid(p).name() << '\n';
 
-    // int a{2};
-    // int *p{&a};
-    // int **q{&p};
-    // int ***r{&q};
-    // std::cout << *p << '\n';
-    // std::cout << q << '\n';
-    // std::cout << r << '\n';
+  *p = 15;
+  std::cout << *p << '\n';
+  std::cout << sizeof(*p) << '\n';
+
+
+  // int a{2};
+  // int *p{&a};
+  // int **q{&p};
+  // int ***r{&q};
+  // std::cout << *p << '\n';
+  // std::cout << q << '\n';
+  // std::cout << r << '\n';
 
   // //======== 2
 //   int a{10};
