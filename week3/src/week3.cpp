@@ -18,20 +18,35 @@ int main() {
   // int a{10};
   // int *p{&a};
   // std::cout << &a << '\n';
+  // std::cout << typeid(&a).name() << '\n';
   // std::cout << p << '\n';
+  // std::cout << typeid(p).name() << '\n';
+
+    // int a{2};
+    // int *p{&a};
+    // int **q{&p};
+    // int ***r{&q};
+    // std::cout << *p << '\n';
+    // std::cout << q << '\n';
+    // std::cout << r << '\n';
 
   // //======== 2
-  // int a{10};
-  // std::cout << typeid(&a).name() << '\n';
-  // // //==============
-  // int *p;
-  // std::cout << typeid(p).name() << '\n';
+//   int a{10};
+//   std::cout << typeid(&a).name() << '\n';
+// //   // //==============
+//   int *p;
+//   std::cout << typeid(p).name() << '\n';
 
   // //======== 3
   // int *p1{nullptr}; // nullptr literal (from C++)
   // int *p2{NULL};    // NULL macro (from C)
   // int *p3{0};       // value initialization
   // int *p4{};        // zero initialization
+
+  // std::cout << p1 << '\n';
+  // std::cout << p2 << '\n';
+  // std::cout << p3 << '\n';
+  // std::cout << p4 << '\n';
 
   // //======== 4
   // int a{3};
@@ -41,6 +56,8 @@ int main() {
   //   std::cout << "p1 is not null\n";
   // else
   //   std::cout << "p1 is null\n";
+  //   std::cout << p1 << '\n';
+  //   std::cout << p2 << '\n';
 
   // //======== 5
   // int a{10};
@@ -50,6 +67,11 @@ int main() {
   // int *p{&a};
   // std::cout << p << '\n';  // 0x7fffffffdb3c
   // std::cout << *p << '\n'; // What is the output?
+
+  // *p = 20;
+  // std::cout << a << '\n';
+  // std::cout << p << '\n';
+  // std::cout << sizeof(p) << '\n';
 
   // //======== 6
   // int i{10};
@@ -66,6 +88,39 @@ int main() {
   // std::cout << sizeof(q) << '\n';
   // std::cout << sizeof(r) << '\n';
   // std::cout << sizeof(s) << '\n';
+
+  // int a{5};
+  // int b{5};
+
+  // int *p1{&a};
+  // int *p2{&b};
+  // int *p3{&a};
+  // std::cout << std::boolalpha; // print bools as true/false
+  // std::cout << p1 << '\n';
+  // std::cout << p2 << '\n';
+  // std::cout << p3 << '\n';
+  // std::cout << (p1 == p2) << '\n';
+  // std::cout << (p1 == p3) << '\n';
+
+  // int a{10};
+  // int b{20};
+  // int *p1{&a};
+  // int *p2{&b};
+  // int *p3{&a};
+  // std::cout << std::boolalpha; // print bools as true/false
+  // std::cout << (*p1 == *p2) << '\n';
+  // std::cout << (*p1 == *p3) << '\n';
+  // std::cout << (*p1 > *p2) << '\n';
+  // std::cout << (*p1 >= *p2) << '\n';
+  // std::cout << (*p1 < *p2) << '\n';
+  // std::cout << (*p1 <= *p2) << '\n';
+  // std::cout << (*p1 != *p2) << '\n';
+  // std::cout << p1 << '\n';
+  // std::cout << *p1 << '\n';
+  // std::cout << p2 << '\n';
+  // std::cout << *p2 << '\n';
+  // std::cout << p3 << '\n';
+  // std::cout << *p3 << '\n';
 
   // //======== 7
   // int a{5};
