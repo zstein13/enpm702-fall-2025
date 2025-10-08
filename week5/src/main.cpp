@@ -10,11 +10,11 @@
  */
 
 #include <iostream>
-
 #include <string>
 #include <vector>
 #include <tuple>   // Required for std::tuple
 #include <utility> // For std::pair
+#include "week5.hpp"
 
 
 // //==================
@@ -276,7 +276,7 @@ int main(int argc, char* argv[])
     //==================
     /*   Definition   */
     //==================
-    // std::cout << add_numbers(3, 5) << '\n';
+    std::cout << add_numbers(3, 5) << '\n';
 
     //==================
     /*      </1>      */
