@@ -48,6 +48,7 @@ build
 # -------------------------------------------
 
 bootstrap_lecture6.sh
+example.txt
 # Built documentation
 docs/_build/
 docs/_autosummary/
