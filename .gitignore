@@ -47,6 +47,7 @@ build
 # Sphinx / Read the Docs build artifacts
 # -------------------------------------------
 
+bootstrap_lecture6.sh
 # Built documentation
 docs/_build/
 docs/_autosummary/
