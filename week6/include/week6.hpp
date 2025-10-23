@@ -4,11 +4,11 @@
 #include <string>
 
 // //====</1>// //====
-struct Point {
-  double x;
-  double y;
-  std::string label{"default"};  // C++11 default member initializer
-};
+// struct Point {
+//   double x;
+//   double y;
+//   std::string label{"default"};  // C++11 default member initializer
+// };
 
 // //====TEMPLATE INSTATIATION====// //
 // template <typename T>
@@ -27,6 +27,7 @@ struct Point {
 // }
 
 // //====</5>====// //
+
 // /**
 //  * @brief Returns the greater of two values.
 //  *
@@ -126,7 +127,7 @@ struct Point {
 // };
 
 // //====</37>====// //
-// // A functor that doubles a number
+// A functor that doubles a number
 // struct Doubler {
 //     int operator()(int x) const {
 //         return x * 2;
@@ -141,3 +142,13 @@ struct Point {
 // };
 
 
+// plate <typename T>  // generic
+// T get_max(T a, T b) {
+//   return (a > b) ? a : b;
+// }
+
+// template<>
+// std::string get_max<std::string>(std::string a, std::string b) {
+//     std::cout << "Using string specialization!\n";
+//     return (a.length() > b.length()) ? a : b;
+// }

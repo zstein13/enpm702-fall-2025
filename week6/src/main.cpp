@@ -82,14 +82,21 @@
 //   return a * 2;
 // }
 
-int main() {
-  // //====</1>// //====
-  // Aggregate Initialization
-  Point p1 = {10.0, 20.0, "center"};  // Initializes x, y, label
-  Point p2 = {10.0, 20.0};  // Initializes x, y. label uses its default.
+// [[nodiscard]] int compute_total(int i) {
+//   return i;
+// }
 
-  std::cout << p1.label << '\n';  // "center"
-  std::cout << p2.label << '\n';  // "default"
+int main() {
+  // std::string s;
+  
+  // compute_total(5);
+  // //====</1>// //====
+  // // Aggregate Initialization
+  // Point p1 = {10.0, 20.0, "center"};  // Initializes x, y, label
+  // Point p2 = {10.0, 20.0};  // Initializes x, y. label uses its default.
+
+  // std::cout << p1.label << '\n';  // "center"
+  // std::cout << p2.label << '\n';  // "default"
 
   // //====</2>// //====
   //   Point p = get_start_point();
@@ -106,14 +113,13 @@ int main() {
   //   std::cout << p.x << '\n';  // Prints 100.0
 
   // //====TEMPLATE INSTATIATION====// //
-  //   int result1{multiply(3, 4)};         // instantiates multiply<int>
-  //   double result2{multiply(2.5, 4.0)};  // instantiates multiply<double>
-  //   int result3{multiply(5, 6)};         // reuses multiply<int> (no new
-  //   code)
+  // int result1{multiply(3, 4)};         // instantiates multiply<int>
+  // double result2{multiply(2.6, 4.0)};  // instantiates multiply<double>
+  // int result3{multiply(5, 6)};         // reuses multiply<int> (no new code)
 
-  //   std::cout << result1 << '\n';
-  //   std::cout << result2 << '\n';
-  //   std::cout << result3 << '\n';
+  // std::cout << result1 << '\n';
+  // std::cout << result2 << '\n';
+  // std::cout << result3 << '\n';
 
   // //====</4a>====// //
   //   add(3, 4);  // Linker error!
@@ -267,7 +273,7 @@ int main() {
   // //====</34>====// //
   // int (*func_ptr)(int, int){&multiply};
 
-  // // Call using explicit dereference
+  // Call using explicit dereference
   // int result1{(*func_ptr)(5, 10)};  // result1 is 50
   // std::cout << "Result 1: " << result1 << '\n';
 
@@ -339,13 +345,15 @@ int main() {
 
   // //====</40>====// //
   // // No parameters
-  // [] { std::cout << "Hello!\n"; };
+  // [] { std::cout << "Hello!\n"; }();
 
-  // // Single parameter
-  // [](int x) { std::cout << x << '\n'; };
+  // // // Single parameter
+  // [](int x) { std::cout << x << '\n'; }(3);
 
-  // // Multiple parameters
-  // [](int a, int b) { return a + b; };
+  // // // Multiple parameters
+  
+  // auto var = [](int a, int b) { return a + b; };
+  // std::cout << var(2,3) << '\n';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   // //====</41>====// //
 
