@@ -1,5 +1,5 @@
-Introduction
-============
+Lecture 6 - Functions (Advanced Topics)
+=========================================
 
 This site accompanies *ENPM702 - Lecture 6: Functions — Advanced Topics*. It organizes the lecture into concise, browsable pages with examples, short exercises, and instructor notes.
 
@@ -15,3 +15,22 @@ Learning Outcomes
 
 .. tip::
    Compile examples with ``-std=c++17 -Wall -Wextra -Wpedantic -Werror`` for strong diagnostics.
+
+Detailed Topics
+---------------
+
+The following sections explore each topic in Lecture 6:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Lecture 6
+   :titlesonly:
+
+   struct
+   templates
+   function_specifiers
+   callables            
+   exercises
+   glossary
+   notes
+   references

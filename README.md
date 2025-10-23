@@ -1,2 +1,3 @@
 # enpm702-fall-2025
-Source code for C++ lectures
+
+- Documentation for Lecture 6 - Functions (Advanced Topics)

@@ -26,7 +26,7 @@ html_theme = "furo"
 # Furo-specific options (all optional)
 html_theme_options = {
     "sidebar_hide_name": True,          # hides large project name in sidebar
-    "source_repository": "https://github.com/<org>/<repo>",
+    "source_repository": "https://github.com/zeidk/enpm702-fall-2025",
     "source_branch": "main",
     # "source_directory": "docs/source/",
     "light_logo": "enpm702light.png",
