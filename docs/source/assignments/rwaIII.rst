@@ -2,13 +2,13 @@
 .. _rwaIII:
 
 ====================================================
-RWA III — Robot Kinematics and Control
+Assignment 3 — Robot Kinematics and Control
 ====================================================
 
-**Course:** ENPM702 — C++ for Robotics  
-**Duration:** 1.5 weeks  
-**Total Points:** 30  
-**Language:** C++17  
+- **Course:** ENPM702 — C++ for Robotics  
+- **Duration:** 1.5 weeks  
+- **Total Points:** 30  
+- **Language:** C++17  
 
 ----------------------------------------------------
 Assignment Overview
@@ -34,10 +34,26 @@ Concept Reference
 Forward Kinematics
 ==================
 
-Forward kinematics computes the **end-effector position** from a known set of **joint angles**.
+Forward kinematics computes the **end-effector position** from a known set of **joint angles**.  
 It answers the question: *“Where is the robot's tool tip given the current joint configuration?”*
 
 For a **2-DOF planar arm**, the link lengths are :math:`L_1` and :math:`L_2`, and the joint angles are :math:`\theta_1` and :math:`\theta_2`.  
+The first joint angle :math:`\theta_1` is measured between the x-axis and the first link :math:`L_1`, while the second joint angle :math:`\theta_2` is measured between the first and second links.
+
+.. figure:: /_static/2DPlanar-light.png
+   :alt: Forward kinematics of a 2-DOF planar arm
+   :align: center
+   :width: 70%
+   :class: only-light
+
+.. figure:: /_static/2DPlanar-dark.png
+   :alt: Forward kinematics of a 2-DOF planar arm (dark theme)
+   :align: center
+   :width: 70%
+   :class: only-dark
+
+   *Forward kinematics of a 2-DOF planar arm showing the base frame, links, and joint angles.*
+
 The end-effector position :math:`(x, y)` is calculated as:
 
 .. math::
@@ -45,7 +61,8 @@ The end-effector position :math:`(x, y)` is calculated as:
    x = L_1\cos(\theta_1) + L_2\cos(\theta_1 + \theta_2), \quad
    y = L_1\sin(\theta_1) + L_2\sin(\theta_1 + \theta_2)
 
-This formula is fundamental for determining if a robot can reach a certain target and validating motion commands.
+This equation provides the Cartesian position of the end-effector and is essential for determining reachability, validating motion commands, and visualizing robot configurations.
+
 
 Smooth Linear Trajectory
 ========================
@@ -200,10 +217,69 @@ Integrate all components into a single simulation demonstrating motion planning,
 4. Use ``std::make_shared`` to create a vector of ``EndEffectorPose``.
 5. For each filtered state, compute the end-effector pose using ``forward_kinematics()``.
 6. Print:
+
    - Trajectory size.
    - Shared pointer reference count.
    - Start and end states (use ``print_joint_state()``).
+
 7. Demonstrate that all resources are released automatically (RAII).
+
+----------------------------------------------------
+Example Terminal Output
+----------------------------------------------------
+
+.. code-block:: text
+
+   Generating smooth trajectory between:
+   Start  -> θ1 = 0.0000 rad, θ2 = 0.0000 rad
+   Goal   -> θ1 = 0.7854 rad, θ2 = -0.5236 rad
+
+   Trajectory points: 21
+   Shared pose count: 1
+
+   Unfiltered Trajectory (every 5th point shown):
+   [0] θ1 = 0.0000 | θ2 = 0.0000 | dθ1 = 0.0000 | dθ2 = 0.0000
+   [5] θ1 = 0.1963 | θ2 = -0.1309 | dθ1 = 0.1963 | dθ2 = -0.1309
+   [10] θ1 = 0.3927 | θ2 = -0.2618 | dθ1 = 0.3927 | dθ2 = -0.2618
+   [15] θ1 = 0.5890 | θ2 = -0.3927 | dθ1 = 0.5890 | dθ2 = -0.3927
+   [20] θ1 = 0.7854 | θ2 = -0.5236 | dθ1 = 0.7854 | dθ2 = -0.5236
+
+   Applying velocity-limit filter: |dθ| ≤ 1.0 rad/s
+   -> Filter applied successfully, all values within limits.
+
+   Filtered Trajectory (first 5 points):
+   [0] θ1 = 0.0000 | θ2 = 0.0000 | dθ1 = 0.0000 | dθ2 = 0.0000
+   [1] θ1 = 0.0393 | θ2 = -0.0262 | dθ1 = 0.0393 | dθ2 = -0.0262
+   [2] θ1 = 0.0785 | θ2 = -0.0524 | dθ1 = 0.0785 | dθ2 = -0.0524
+   [3] θ1 = 0.1178 | θ2 = -0.0785 | dθ1 = 0.1178 | dθ2 = -0.0785
+   [4] θ1 = 0.1571 | θ2 = -0.1047 | dθ1 = 0.1571 | dθ2 = -0.1047
+
+   Computing end-effector poses for filtered trajectory...
+   Link lengths: L1 = 0.50 m, L2 = 0.30 m
+
+   End-Effector Trajectory (first 10 points):
+   [0]  x = 0.8000 m,  y = 0.0000 m
+   [1]  x = 0.7997 m,  y = 0.0157 m
+   [2]  x = 0.7988 m,  y = 0.0314 m
+   [3]  x = 0.7972 m,  y = 0.0470 m
+   [4]  x = 0.7950 m,  y = 0.0626 m
+   [5]  x = 0.7921 m,  y = 0.0782 m
+   [6]  x = 0.7886 m,  y = 0.0938 m
+   [7]  x = 0.7844 m,  y = 0.1093 m
+   [8]  x = 0.7796 m,  y = 0.1247 m
+   [9]  x = 0.7742 m,  y = 0.1400 m
+   ...
+   [20] x = 0.7375 m,  y = 0.2721 m
+
+   Summary
+   --------
+   • Total joint states: 21
+   • Velocity filter: active (|dθ| ≤ 1.0)
+   • Shared pose vector ref count: 1
+   • RAII cleanup complete — all resources released automatically.
+
+   Program finished successfully.
+
 
 ----------------------------------------------------
 Code Quality and C++ Guidelines (6 pts)
@@ -267,8 +343,6 @@ References and Further Reading
 .. raw:: html
 
    <ul>
-     <li><a href="https://www.nist.gov/el/intelligent-systems-division" target="_blank" rel="noopener noreferrer">
-     NIST Robotics Kinematics Overview</a></li>
      <li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines" target="_blank" rel="noopener noreferrer">
      C++ Core Guidelines</a></li>
      <li><a href="https://en.cppreference.com/w/cpp/language/raii" target="_blank" rel="noopener noreferrer">
