@@ -1,6 +1,7 @@
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :titlesonly:
 
+   overview
    lecture6/lecture6
    lecture7/lecture7
