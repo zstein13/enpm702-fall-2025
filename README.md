@@ -4,11 +4,17 @@
 
 
 
-## 📘 Lecture 6: Read the Docs
+## 📘 Lecture 6: Functions (Advanced Topics)
 
 The documentation is hosted on **Read the Docs**:
 
 👉 [View Lecture 6 Documentation](https://enpm702-fall-2025.readthedocs.io/en/latest/)
+
+## 📘 Lecture 7: Move Semantics and Smart Pointers
+
+The documentation is hosted on **Read the Docs**:
+
+👉 [View Lecture 7 Documentation](https://enpm702-fall-2025.readthedocs.io/en/latest/)
 
 <!-- ---
 
