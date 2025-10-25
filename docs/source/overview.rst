@@ -1,10 +1,22 @@
 .. default-domain:: cpp
 
 =====================================
-C++ Advanced Topics Overview
+C++ Topics Overview
 =====================================
 
-This document provides a concise overview of the material covered in :doc:`lecture6/lecture6` and :doc:`lecture7/lecture7` for **ENPM702**, highlighting the progression from advanced function mechanisms to efficient resource management using modern C++ features.
+This document provides a concise overview of the material covered in **ENPM702 (fall 2025)**.
+
+Source Code
+------------
+
+Source code for all lectures is available at
+
+.. raw:: html
+
+   <a href="https://github.com/zeidk/enpm702-fall-2025" target="_blank" rel="noopener noreferrer">
+       https://github.com/zeidk/enpm702-fall-2025
+   </a>
+
 
 Lecture 6 - Functions: Advanced Topics
 =======================================
