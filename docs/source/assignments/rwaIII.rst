@@ -127,13 +127,13 @@ The first joint angle :math:`\theta_1` is measured between the x-axis and the fi
 .. figure:: /_static/2DPlanar-light.png
    :alt: Forward kinematics of a 2-DOF planar arm
    :align: center
-   :width: 70%
+   :width: 90%
    :class: only-light
 
 .. figure:: /_static/2DPlanar-dark.png
    :alt: Forward kinematics of a 2-DOF planar arm (dark theme)
    :align: center
-   :width: 70%
+   :width: 90%
    :class: only-dark
 
 
@@ -175,24 +175,6 @@ You will implement this filter as a **lambda function**, which:
 
 This demonstrates how to use **lambda expressions** for inline, real-time control operations.
 
-.. ----------------------------------------------------
-.. File Structure
-.. ----------------------------------------------------
-
-.. You must create the following files:
-
-.. .. code-block:: text
-
-..    robot_types.hpp / robot_types.cpp
-..    robot_kinematics.hpp
-..    robot_control.hpp / robot_control.cpp
-..    main.cpp
-..    CMakeLists.txt
-
-.. **Guidelines:**
-
-.. - **Templates** → defined entirely in ``.hpp``.
-.. - **Non-template functions** → declared in ``.hpp`` and implemented in ``.cpp``.
 
 ----------------------------------------------------
 Task 1 - Robot State POD Structs (6 pts)

@@ -7,7 +7,7 @@
    id="svg22"
    sodipodi:docname="2DPlanar-light.svg"
    inkscape:version="1.4.2 (1:1.4.2+202505120737+ebf0e940d0)"
-   inkscape:export-filename="2DPlanar.png"
+   inkscape:export-filename="2DPlanar-light.png"
    inkscape:export-xdpi="600"
    inkscape:export-ydpi="600"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -25,8 +25,8 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
      inkscape:zoom="3.6095238"
-     inkscape:cx="342.42744"
-     inkscape:cy="277.3219"
+     inkscape:cx="138.66095"
+     inkscape:cy="283.41689"
      inkscape:window-width="3840"
      inkscape:window-height="941"
      inkscape:window-x="0"
@@ -142,7 +142,7 @@
        id="path28"
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="2DPlanar-dark.png"
+       inkscape:export-filename="2DPlanar-light.png"
        inkscape:export-xdpi="600"
        inkscape:export-ydpi="600" />
     <path
@@ -152,22 +152,8 @@
        inkscape:connector-type="polyline"
        inkscape:connector-curvature="0" />
   </g>
-  <g
-     opacity="0.25"
-     id="g3">
-    <path
-       class="grid"
-       d="M 380,10 V 410 M 10,210 h 740"
-       id="path3" />
-  </g>
   <!-- Axes at base -->
   <!-- Base origin -->
-  <circle
-     cx="80"
-     cy="330"
-     r="5"
-     class="joint"
-     id="circle5" />
   <text
      x="47.308701"
      y="355.48813"
@@ -192,12 +178,6 @@
      class="link1"
      id="line6" />
   <!-- Joint 1 -->
-  <circle
-     cx="253.205"
-     cy="230"
-     r="6"
-     class="joint"
-     id="circle6" />
   <!-- Link 2 -->
   <line
      x1="253.205"
@@ -309,5 +289,25 @@
      d="M 82.005277,330.79156 383.98417,262.63852"
      id="path22"
      inkscape:connector-type="polyline"
-     inkscape:connector-curvature="0" />
+     inkscape:connector-curvature="0"
+     inkscape:export-filename="2DPlanar-light.png"
+     inkscape:export-xdpi="600"
+     inkscape:export-ydpi="600" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="joints">
+    <circle
+       cx="80"
+       cy="330"
+       r="5"
+       class="joint"
+       id="circle5" />
+    <circle
+       cx="253.205"
+       cy="230"
+       r="6"
+       class="joint"
+       id="circle6" />
+  </g>
 </svg>

@@ -7,11 +7,17 @@ copyright = f'{date.today().year}, {author}'
 release = 'v1.0'
 
 extensions = [
+    "myst_parser",
+    "sphinx.ext.autosummary",
+    "sphinxcontrib.mermaid",
+    "sphinx_autodoc_typehints",
+    "sphinx_copybutton",
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
     'sphinx.ext.intersphinx',
     'sphinx_design',
 ]
+
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
