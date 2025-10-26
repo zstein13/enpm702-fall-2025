@@ -124,17 +124,28 @@ For a **2-DOF planar arm**, the link lengths are :math:`L_1` and :math:`L_2`, an
 The first joint angle :math:`\theta_1` is measured between the x-axis and the first link :math:`L_1`, while the second joint angle :math:`\theta_2` is measured between the first and second links.
 
 
-.. figure:: /_static/2DPlanar-light.png
-   :alt: Forward kinematics of a 2-DOF planar arm
-   :align: center
-   :width: 90%
-   :class: only-light
+.. only:: html
 
-.. figure:: /_static/2DPlanar-dark.png
-   :alt: Forward kinematics of a 2-DOF planar arm (dark theme)
-   :align: center
-   :width: 90%
-   :class: only-dark
+   .. figure:: /_static/2DPlanar-light.png
+      :alt: Forward kinematics of a 2-DOF planar arm
+      :align: center
+      :width: 90%
+      :class: only-light
+
+   .. figure:: /_static/2DPlanar-dark.png
+      :alt: Forward kinematics of a 2-DOF planar arm (dark theme)
+      :align: center
+      :width: 90%
+      :class: only-dark
+
+
+.. only:: latex
+
+   .. figure:: /_static/2DPlanar-light.png
+      :alt: Forward kinematics of a 2-DOF planar arm
+      :align: center
+      :width: 90%
+
 
 
 The end-effector position :math:`(x, y)` is calculated as:
