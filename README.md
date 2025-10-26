@@ -17,6 +17,11 @@
 
 👉 [View Lecture 7 Documentation](https://enpm702-fall-2025.readthedocs.io/en/latest/lecture7/lecture7.html)
 
+## 📘 Assignment 3
+
+
+👉 [View Assignment 3 Documentation](https://enpm702-fall-2025.readthedocs.io/en/latest/assignments/rwaIII.html)
+
 <!-- ---
 
 ## 📂 Contents
