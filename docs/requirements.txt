@@ -11,7 +11,7 @@ myst-parser
 sphinx-design>=0.6
 sphinx-copybutton
 sphinxcontrib-mermaid
-sphinxcontrib-pseudocode
+sphinxcontrib-pseudocode==0.7.0
 
 # Autodoc and type support
 sphinx-autodoc-typehints
