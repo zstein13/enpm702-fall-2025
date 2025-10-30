@@ -501,31 +501,172 @@ Your code will be graded for adherence to **C++ Core Guidelines**:
 Evaluation Rubric (36 pts)
 ----------------------------------------------------
 
+Performance Levels (used below)
+-------------------------------
+
+- **Exceeds**: Fully correct, robust, and idiomatic; anticipates edge cases.
+- **Meets**: Correct and idiomatic; minor issues that do not affect correctness.
+- **Partial**: Partially correct or missing important elements.
+- **Insufficient**: Incorrect, incomplete, or non-functional.
+
+.. note::
+   Points for each sub-criterion are **all-or-nothing** unless otherwise noted. “Partial” earns **half** of the listed points for that sub-criterion when applicable.
+
+Task 1 — POD Structs, Defaults, and Printing (6 pts)
+-----------------------------------------------------
+
 .. list-table::
    :header-rows: 1
-   :widths: 25 60 15
+   :widths: 42 43 15
 
-   * - **Section**
-     - **Description**
-     - **Points**
-   * - Task 1
-     - POD structs, default member initializers, and formatted printing
-     - 6
-   * - Task 2
-     - Forward kinematics template implementation
-     - 8
-   * - Task 3
-     - Linear interpolation and velocity filtering
-     - 8
-   * - Task 4
-     - Smart pointers, memory safety, and RAII integration
-     - 8
-   * - Code Quality
-     - Adherence to C++ Core Guidelines and best practices
-     - 6
-   * - **Total**
-     - **Overall Assignment Score**
-     - **36**
+   * - **Sub-criterion**
+     - **Evidence of Exceeds / Meets / Partial / Insufficient**
+     - **Pts**
+   * - POD structs with appropriate fields
+     - *Exceeds/Meets*: Correct fields; no invariants required; trivially copyable design.  
+       *Partial*: Missing a field or uses class features that break POD intent.  
+       *Insufficient*: Wrong or unusable structure.
+     - 2
+   * - Default member initializers for all fields
+     - *Exceeds/Meets*: Sensible defaults set in-class; no uninitialized state.  
+       *Partial*: Defaults incomplete.  
+       *Insufficient*: No defaults; UB risk.
+     - 2
+   * - Formatted printing (readable, labeled, consistent units)
+     - *Exceeds*: Clear labels, alignment, and units; no `std::endl` misuse; newline `'\n'`.  
+       *Meets*: Clear output; minor formatting nits.  
+       *Partial/Insufficient*: Hard to read or missing fields.
+     - 2
+
+Task 2 — Forward Kinematics Template Implementation (8 pts)
+-----------------------------------------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 42 43 15
+
+   * - **Sub-criterion**
+     - **Evidence of Exceeds / Meets / Partial / Insufficient**
+     - **Pts**
+   * - Correct FK equations and frame conventions
+     - *Exceeds/Meets*: Angles and link lengths used with correct trigonometry and ordering; frames documented.  
+       *Partial*: Minor sign or frame confusion with test mismatch.  
+       *Insufficient*: Incorrect mapping.
+     - 3
+   * - Generic template design (types, constants)
+     - *Exceeds*: Template parameters or `auto` enable `float`/`double`; no unnecessary casts.  
+       Meets: Works for primary type with clean template signature.  
+       *Partial/Insufficient*: Hard-coded type or broken templating.
+     - 2
+   * - Numerical sanity and edge cases
+     - *Exceeds*: Handles zero angles, extreme values, and boundary inputs; tests or asserts where appropriate.  
+       Meets: Works on nominal cases.  
+       *Partial/Insufficient*: Fails common cases.
+     - 2
+   * - Clear API and documentation
+     - *Exceeds/Meets*: Function name, params, and returned pose are unambiguous; brief comment.  
+       *Partial/Insufficient*: Ambiguous or missing.
+     - 1
+
+Task 3 — Linear Interpolation and Velocity Filtering (8 pts)
+------------------------------------------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 42 43 15
+
+   * - **Sub-criterion**
+     - **Evidence of Exceeds / Meets / Partial / Insufficient**
+     - **Pts**
+   * - Interpolation correctness with clamped :math:`\\alpha`
+     - *Exceeds/Meets*: Implements `alpha = clamp(alpha, 0, 1)`; linear blend for all fields as specified.  
+       *Partial*: Forgets clamping or a field.  
+       *Insufficient*: Incorrect formula.
+     - 3
+   * - Velocity assignment proportional to :math:`\\Delta\\theta`
+     - *Exceeds/Meets*: Uses `k * Δθ` consistently; rationale or constant visible.  
+       *Partial*: Applies to one joint only or mixes units.  
+       *Insufficient*: Missing or wrong.
+     - 2
+   * - Filter application over trajectory (in-place transform)
+     - *Exceeds/Meets*: Iterates safely over all states; no copies unless required; lambda friendly.  
+       *Partial*: Inefficient copying or off-by-one.  
+       *Insufficient*: Incorrect application.
+     - 2
+   * - Readability and test snippet
+     - *Exceeds/Meets*: Small demo or asserts; clear variable names.  
+       *Partial/Insufficient*: Hard to follow.
+     - 1
+
+Task 4 — Smart Pointers, Safety, and RAII (8 pts)
+--------------------------------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 42 43 15
+
+   * - **Sub-criterion**
+     - **Evidence of Exceeds / Meets / Partial / Insufficient**
+     - **Pts**
+   * - Correct `std::unique_ptr` ownership
+     - *Exceeds/Meets*: Uses `std::make_unique`; no raw `new` in user code; `reset` only when justified.  
+       *Partial*: Mixed ownership patterns.  
+       *Insufficient*: Leaks or double-delete risks.
+     - 3
+   * - RAII integration and lifetime clarity
+     - *Exceeds/Meets*: Resources released deterministically; no manual `delete`; scopes well defined.  
+       *Partial*: Lifetime unclear.  
+       *Insufficient*: Dangling usage.
+     - 2
+   * - Avoids anti-patterns
+     - *Exceeds/Meets*: No `std::move` into same object; no copying `unique_ptr`; no ``naked`` owning raw pointers.  
+       *Partial/Insufficient*: One or more anti-patterns present.
+     - 2
+   * - Minimal, focused example
+     - *Exceeds/Meets*: Short example that compiles; comments explain ownership.  
+       *Partial/Insufficient*: Confusing or non-compiling.
+     - 1
+
+Code Quality — C++ Core Guidelines and Best Practices (6 pts)
+-------------------------------------------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 42 43 15
+
+   * - **Checklist**
+     - **Evidence**
+     - **Pts**
+   * - Warnings clean: `-Wall -Wextra -pedantic-errors`
+     - Builds without warnings; uses `'\n'` instead of `std::endl`.
+     - 2
+   * - Naming, constants, and initialization
+     - Consistent snake_case for vars; `constexpr` or `const` for magic numbers; uniform initialization `{}`.
+     - 2
+   * - Documentation and structure
+     - Doxygen header present; files named per spec; functions short and single-purpose.
+     - 2
+
+Deductions (Flat)
+-----------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 75 25
+   :class: deductions-table
+
+   * - **Issue**
+     - **Penalty**
+   * - Wrong file naming or extra files in archive
+     - −4 pts each
+   * - Project does not compile or compiles with warnings/errors
+     - −5 pts
+   * - Missing or incomplete Doxygen header
+     - −3 pts
+   * - Late submission (UMD policy)
+     - 20% per day (max 3 days); after 3 days, 0
+
+
 
 ----------------------------------------------------
 Learning Outcomes
