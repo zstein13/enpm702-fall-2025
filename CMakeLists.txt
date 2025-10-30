@@ -16,7 +16,6 @@ add_compile_options(-Wall -Wextra -Werror -pedantic-errors)
 # add_subdirectory(week5)
 # add_subdirectory(week6)
 add_subdirectory(week7)
-# add_subdirectory(rwa3_solution)
 
 
 # add_subdirectory(reading_material)
