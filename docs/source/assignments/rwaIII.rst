@@ -337,20 +337,22 @@ Generate intermediate robot states between a start and goal configuration, and a
       FOR each index i in [0 .. traj.size()-1]:
           traj[i] <- filter(traj[i])
 
-   **Velocity-limit lambda (used in main) — pseudocode**
+   **Lambdas (in main function) — pseudocode**
 
    .. code-block:: text
 
-      lambda clamp_vel(s: JointState) -> JointState:
-          out <- s
-          out.dtheta1 <- clamp_to_limit(out.dtheta1, limit = 1.0)
-          out.dtheta2 <- clamp_to_limit(out.dtheta2, limit = 1.0)
-          RETURN out
+      clamp_to_limit(v, limit):
+         if v >  limit: return  limit
+         if v < -limit: return -limit
+         return v
 
-      function clamp_to_limit(v, limit):
-          if v >  limit: return  limit
-          if v < -limit: return -limit
-          return v
+      clamp_vel(s: JointState) -> JointState:
+         out <- s
+         out.dtheta1 <- clamp_to_limit(out.dtheta1, limit = 1.0)
+         out.dtheta2 <- clamp_to_limit(out.dtheta2, limit = 1.0)
+         RETURN out
+
+      
 
 
 
