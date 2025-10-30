@@ -368,12 +368,11 @@ Integrate all components into a single simulation demonstrating motion planning,
 1. Use ``std::make_unique`` to create a vector of ``JointState`` representing the trajectory.
 2. Generate 21 states using ``interpolate_linear()`` (from :math:`\alpha=0` to 1 in steps of 0.05).
 3. Apply the velocity filter using ``apply_filter()``.
-4. Use ``std::make_shared`` to create a vector of ``EndEffectorPose``.
+4. Use ``std::make_unique`` to create a vector of ``EndEffectorPose``.
 5. For each filtered state, compute the end-effector pose using ``forward_kinematics()``.
 6. Print:
 
    - Trajectory size.
-   - Shared pointer reference count.
    - Start and end states (use ``print_joint_state()``).
 
 7. Demonstrate that all resources are released automatically (RAII).
@@ -472,7 +471,7 @@ Code Quality and C++ Guidelines (6 pts)
 Your code will be graded for adherence to **C++ Core Guidelines**:
 
 - No raw pointers (``new`` or ``delete``).
-- Correct ownership semantics using ``unique_ptr`` and ``shared_ptr``.
+- Correct ownership semantics using ``std::unique_ptr``.
 - Const-correctness and pass-by-reference for non-owning parameters.
 - Uniform initialization (``{}``) used consistently.
 - Clean compilation with ``-Wall -Werror -Wextra -Wpedantic``.
