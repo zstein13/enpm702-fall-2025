@@ -482,7 +482,7 @@ Your code will be graded for adherence to **C++ Core Guidelines**:
 - Correct ownership semantics using ``std::unique_ptr``.
 - Const-correctness and pass-by-reference for non-owning parameters.
 - Uniform initialization (``{}``) used consistently.
-- Clean compilation with ``-Wall -Werror -Wextra -Wpedantic``.
+- Clean compilation with ``-Wall -Werror -Wextra -pedantic-errors``.
 - Clear naming, concise comments, and documented units (radians, meters, rad/s).
 
 ----------------------------------------------------
