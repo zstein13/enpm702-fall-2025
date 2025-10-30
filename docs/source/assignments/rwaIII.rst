@@ -315,30 +315,25 @@ Generate intermediate robot states between a start and goal configuration, and a
 
    **interpolate_linear(start, goal, α) — pseudocode**
 
-   .. pcode::
-      :linenos:
-      
-      \begin{algorithm}
-      \caption{interpolate\_linear(start, goal, $\alpha$)}
-      \begin{algorithmic}[1]
-      \REQUIRE start: (JointState)
-      \REQUIRE goal: (JointState)
-      \REQUIRE $\alpha$: scalar $\in [0, 1]$
-      \PROCEDURE{interpolate\_linear}{start, goal, $\alpha$}
-         \STATE $\alpha \leftarrow \text{clamp}(\alpha, 0, 1)$ \COMMENT{Step 1: Clamp $\alpha$}
-         \STATE \COMMENT{Step 2: Interpolate angles}
-         \STATE $out.\theta_1 \leftarrow \text{start}.\theta_1 + \alpha \times (\text{goal}.\theta_1 - \text{start}.\theta_1)$
-         \STATE $out.\theta_2 \leftarrow \text{start}.\theta_2 + \alpha \times (\text{goal}.\theta_2 - \text{start}.\theta_2)$
-         \STATE \COMMENT{Step 3: Compute total angle change}
-         \STATE $\Delta\theta_1 \leftarrow (\text{goal}.\theta_1 - \text{start}.\theta_1)$
-         \STATE $\Delta\theta_2 \leftarrow (\text{goal}.\theta_2 - \text{start}.\theta_2)$
-         \STATE \COMMENT{Step 4: Assign velocities proportional to $\Delta\theta$}
-         \STATE $out.d\theta_1 \leftarrow k \times \Delta\theta_1$
-         \STATE $out.d\theta_2 \leftarrow k \times \Delta\theta_2$
-         \STATE \RETURN $out$ \COMMENT{Step 5: Return interpolated state}
-      \ENDPROCEDURE
-      \end{algorithmic}
-      \end{algorithm}
+   .. code-block:: text
+
+      INPUT: start (theta1, theta2, dtheta1, dtheta2),
+             goal  (theta1, theta2, dtheta1, dtheta2),
+             alpha in [0, 1]
+
+      1) alpha <- clamp(alpha, 0, 1)
+
+      2) out.theta1 <- start.theta1 + alpha * (goal.theta1 - start.theta1)
+         out.theta2 <- start.theta2 + alpha * (goal.theta2 - start.theta2)
+
+      3) Δθ1 <- (goal.theta1 - start.theta1)
+         Δθ2 <- (goal.theta2 - start.theta2)
+
+      4) Assign velocities proportional to Δθ:
+         out.dtheta1 <- k * Δθ1
+         out.dtheta2 <- k * Δθ2
+
+      5) RETURN out
 
    **apply_filter(traj, filter) — pseudocode**
 
