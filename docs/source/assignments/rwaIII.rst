@@ -317,7 +317,7 @@ Generate intermediate robot states between a start and goal configuration, and a
 
    .. code-block:: text
 
-      INPUT: start (theta1, theta2, dtheta1, dtheta2),
+      INPUT: start (:math: `\theta_{1}`, theta2, dtheta1, dtheta2),
              goal  (theta1, theta2, dtheta1, dtheta2),
              alpha in [0, 1]
 
