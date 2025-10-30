@@ -1,0 +1,36 @@
+/* * 1. DEFINE a new "pseudocode" color set using Furo's naming system.
+ */
+
+/* First, define the colors for light mode (the default :root) */
+:root {
+  /* Using your original light blue theme */
+  --furo-color-pseudocode-background: #f4f7f9;
+  --furo-color-pseudocode-title-background: #dbe4ee;
+  --furo-color-pseudocode-border: #a6bddb;
+}
+
+/* Next, define the same colors for dark mode */
+[data-theme="dark"] {
+  /* Here, we pick new colors that work for a dark theme */
+  --furo-color-pseudocode-background: #2a323d;   /* A dark blue-gray */
+  --furo-color-pseudocode-title-background: #384250; /* A slightly lighter dark blue */
+  --furo-color-pseudocode-border: #5b6e88;     /* A muted blue */
+}
+
+
+/* * 2. APPLY these new variables to your .pseudocode class.
+ * We'll mimic Furo's default admonition style (a left border, not a full box).
+ */
+div.admonition.pseudocode {
+    background-color: var(--furo-color-pseudocode-background);
+    /* Furo uses a 'border-left' for its admonitions, not a full 'border' */
+    border-left: 0.2rem solid var(--furo-color-pseudocode-border);
+    /* Remove the old full-box border if you had one */
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+}
+
+div.admonition.pseudocode p.admonition-title {
+    background-color: var(--furo-color-pseudocode-title-background);
+}

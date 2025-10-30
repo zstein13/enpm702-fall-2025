@@ -313,53 +313,65 @@ Generate intermediate robot states between a start and goal configuration, and a
 
       d\theta \leftarrow \operatorname{sign}(d\theta)\,\min\!\left(|d\theta|,\, 1.0\right)
 
-   **interpolate_linear(start, goal, α) — pseudocode**
+   .. admonition:: Pseudocode: **interpolate_linear(start, goal, α)**
+      :class: pseudocode
 
-   .. code-block:: text
+      .. line-block::
 
-      INPUT: start (:math: `\theta_{1}`, theta2, dtheta1, dtheta2),
-             goal  (theta1, theta2, dtheta1, dtheta2),
-             alpha in [0, 1]
+         INPUT: start (:math:`\theta_1`, :math:`\theta_2`, :math:`d\theta_1`, :math:`d\theta_2`),
+               goal  (:math:`\theta_1`, :math:`\theta_2`, :math:`d\theta_1`, :math:`d\theta_2`),
+               :math:`\alpha` in [0, 1]
 
-      1) alpha <- clamp(alpha, 0, 1)
+         1) :math:`\alpha \leftarrow \text{clamp}(\alpha, 0, 1)`
 
-      2) out.theta1 <- start.theta1 + alpha * (goal.theta1 - start.theta1)
-         out.theta2 <- start.theta2 + alpha * (goal.theta2 - start.theta2)
+         2) :math:`out.\theta_1 \leftarrow \text{start}.\theta_1 + \alpha \times (\text{goal}.\theta_1 - \text{start}.\theta_1)`
+            :math:`out.\theta_2 \leftarrow \text{start}.\theta_2 + \alpha \times (\text{goal}.\theta_2 - \text{start}.\theta_2)`
 
-      3) Δθ1 <- (goal.theta1 - start.theta1)
-         Δθ2 <- (goal.theta2 - start.theta2)
+         3) :math:`\Delta\theta_1 \leftarrow (\text{goal}.\theta_1 - \text{start}.\theta_1)`
+            :math:`\Delta\theta_2 \leftarrow (\text{goal}.\theta_2 - \text{start}.\theta_2)`
 
-      4) Assign velocities proportional to Δθ:
-         out.dtheta1 <- k * Δθ1
-         out.dtheta2 <- k * Δθ2
+         4) Assign velocities proportional to :math:`\Delta\theta`:
+            :math:`out.d\theta_1 \leftarrow k \times \Delta\theta_1`
+            :math:`out.d\theta_2 \leftarrow k \times \Delta\theta_2`
 
-      5) RETURN out
+         5) RETURN :math:`out`
+   
 
-   **apply_filter(traj, filter) — pseudocode**
+   .. admonition:: Pseudocode: **apply_filter(traj, filter)**
+      :class: pseudocode
+      
+      .. line-block::
 
-   .. code-block:: text
+         INPUT: traj: vector of JointState
+                filter: function JointState :math:`\rightarrow` JointState
 
-      INPUT: traj: vector of JointState
-             filter: function JointState -> JointState
+         FOR each index :math:`i` in :math:`[0 \dots \text{traj.size()}-1]`:
+            :math:`\text{traj}[i] \leftarrow \text{filter}(\text{traj}[i])`
 
-      FOR each index i in [0 .. traj.size()-1]:
-          traj[i] <- filter(traj[i])
 
-   **Lambdas (in main function) — pseudocode**
+   .. admonition:: Pseudocode: **Lambda: clamp_to_limit(v, limit)**
+      :class: pseudocode
+      
+      .. line-block::
 
-   .. code-block:: text
+         IF :math:`v > \text{limit}`:
+            RETURN :math:`\text{limit}`
+         IF :math:`v < -\text{limit}`:
+            RETURN :math:`-\text{limit}`
+         RETURN :math:`v`
 
-      clamp_to_limit(v, limit):
-         if v >  limit: return  limit
-         if v < -limit: return -limit
-         return v
+   .. admonition:: Pseudocode: **Lambda: clamp_vel(s)**
+      :class: pseudocode
+      
+      .. line-block::
 
-      clamp_vel(s: JointState) -> JointState:
-         out <- s
-         out.dtheta1 <- clamp_to_limit(out.dtheta1, limit = 1.0)
-         out.dtheta2 <- clamp_to_limit(out.dtheta2, limit = 1.0)
-         RETURN out
+         INPUT: s (JointState)
+         RETURNS: JointState
 
+         :math:`out \leftarrow s`
+         :math:`out.d\theta_1 \leftarrow \text{clamp_to_limit}(out.d\theta_1, 1.0)`
+         :math:`out.d\theta_2 \leftarrow \text{clamp_to_limit}(out.d\theta_2, 1.0)`
+         RETURN :math:`out`
       
 
 

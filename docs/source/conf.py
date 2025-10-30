@@ -46,5 +46,5 @@ master_doc = 'index'
 # Custom CSS for Furo Theme
 # ----------------------------------------------------------------------
 
-# def setup(app):
-#     app.add_css_file("furo-overrides.css")
+def setup(app):
+    app.add_css_file("custom.css")
