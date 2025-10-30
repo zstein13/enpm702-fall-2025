@@ -404,53 +404,61 @@ Example Terminal Output
 
 .. code-block:: text
 
+   === Robot Kinematics & Control ===
+
    Generating smooth trajectory between:
-   Start  -> θ1 = 0.0000 rad, θ2 = 0.0000 rad
-   Goal   -> θ1 = 0.7854 rad, θ2 = -0.5236 rad
+   Start  -> θ1 = 0.0000 rad | θ2 = 0.0000 rad | dθ1 = 0.0000 rad/s | dθ2 = 0.0000 rad/s
+   Goal   -> θ1 = 0.7854 rad | θ2 = -0.5236 rad | dθ1 = 0.0000 rad/s | dθ2 = 0.0000 rad/s
 
    Trajectory points: 21
-   Shared pose count: 1
-
    Unfiltered Trajectory (every 5th point shown):
-   [0] θ1 = 0.0000 | θ2 = 0.0000 | dθ1 = 0.0000 | dθ2 = 0.0000
-   [5] θ1 = 0.1963 | θ2 = -0.1309 | dθ1 = 0.1963 | dθ2 = -0.1309
-   [10] θ1 = 0.3927 | θ2 = -0.2618 | dθ1 = 0.3927 | dθ2 = -0.2618
-   [15] θ1 = 0.5890 | θ2 = -0.3927 | dθ1 = 0.5890 | dθ2 = -0.3927
-   [20] θ1 = 0.7854 | θ2 = -0.5236 | dθ1 = 0.7854 | dθ2 = -0.5236
+   [0] θ1 = 0.0000 rad | θ2 = 0.0000 rad | dθ1 = 0.7854 rad/s | dθ2 = -0.5236 rad/s
+   [5] θ1 = 0.1963 rad | θ2 = -0.1309 rad | dθ1 = 0.7854 rad/s | dθ2 = -0.5236 rad/s
+   [10] θ1 = 0.3927 rad | θ2 = -0.2618 rad | dθ1 = 0.7854 rad/s | dθ2 = -0.5236 rad/s
+   [15] θ1 = 0.5890 rad | θ2 = -0.3927 rad | dθ1 = 0.7854 rad/s | dθ2 = -0.5236 rad/s
+   [20] θ1 = 0.7854 rad | θ2 = -0.5236 rad | dθ1 = 0.7854 rad/s | dθ2 = -0.5236 rad/s
 
-   Applying velocity-limit filter: |dθ| ≤ 1.0 rad/s
+   Applying velocity-limit filter: |dθ| ≤ 1.0000 rad/s
    -> Filter applied successfully, all values within limits.
 
    Filtered Trajectory (first 5 points):
-   [0] θ1 = 0.0000 | θ2 = 0.0000 | dθ1 = 0.0000 | dθ2 = 0.0000
-   [1] θ1 = 0.0393 | θ2 = -0.0262 | dθ1 = 0.0393 | dθ2 = -0.0262
-   [2] θ1 = 0.0785 | θ2 = -0.0524 | dθ1 = 0.0785 | dθ2 = -0.0524
-   [3] θ1 = 0.1178 | θ2 = -0.0785 | dθ1 = 0.1178 | dθ2 = -0.0785
-   [4] θ1 = 0.1571 | θ2 = -0.1047 | dθ1 = 0.1571 | dθ2 = -0.1047
+   [0] θ1 = 0.0000 rad | θ2 = 0.0000 rad | dθ1 = 0.7854 rad/s | dθ2 = -0.5236 rad/s
+   [1] θ1 = 0.0393 rad | θ2 = -0.0262 rad | dθ1 = 0.7854 rad/s | dθ2 = -0.5236 rad/s
+   [2] θ1 = 0.0785 rad | θ2 = -0.0524 rad | dθ1 = 0.7854 rad/s | dθ2 = -0.5236 rad/s
+   [3] θ1 = 0.1178 rad | θ2 = -0.0785 rad | dθ1 = 0.7854 rad/s | dθ2 = -0.5236 rad/s
+   [4] θ1 = 0.1571 rad | θ2 = -0.1047 rad | dθ1 = 0.7854 rad/s | dθ2 = -0.5236 rad/s
 
    Computing end-effector poses for filtered trajectory...
    Link lengths: L1 = 0.50 m, L2 = 0.30 m
 
-   End-Effector Trajectory (first 10 points):
+   End-Effector Trajectory (all points):
    [0]  x = 0.8000 m,  y = 0.0000 m
-   [1]  x = 0.7997 m,  y = 0.0157 m
-   [2]  x = 0.7988 m,  y = 0.0314 m
-   [3]  x = 0.7972 m,  y = 0.0470 m
-   [4]  x = 0.7950 m,  y = 0.0626 m
-   [5]  x = 0.7921 m,  y = 0.0782 m
-   [6]  x = 0.7886 m,  y = 0.0938 m
-   [7]  x = 0.7844 m,  y = 0.1093 m
-   [8]  x = 0.7796 m,  y = 0.1247 m
-   [9]  x = 0.7742 m,  y = 0.1400 m
-   ...
-   [20] x = 0.7375 m,  y = 0.2721 m
+   [1]  x = 0.7996 m,  y = 0.0236 m
+   [2]  x = 0.7984 m,  y = 0.0471 m
+   [3]  x = 0.7963 m,  y = 0.0705 m
+   [4]  x = 0.7934 m,  y = 0.0939 m
+   [5]  x = 0.7898 m,  y = 0.1172 m
+   [6]  x = 0.7853 m,  y = 0.1403 m
+   [7]  x = 0.7800 m,  y = 0.1632 m
+   [8]  x = 0.7739 m,  y = 0.1859 m
+   [9]  x = 0.7670 m,  y = 0.2083 m
+   [10]  x = 0.7594 m,  y = 0.2305 m
+   [11]  x = 0.7510 m,  y = 0.2524 m
+   [12]  x = 0.7418 m,  y = 0.2739 m
+   [13]  x = 0.7319 m,  y = 0.2951 m
+   [14]  x = 0.7213 m,  y = 0.3159 m
+   [15]  x = 0.7100 m,  y = 0.3363 m
+   [16]  x = 0.6980 m,  y = 0.3563 m
+   [17]  x = 0.6853 m,  y = 0.3758 m
+   [18]  x = 0.6719 m,  y = 0.3948 m
+   [19]  x = 0.6579 m,  y = 0.4132 m
+   [20]  x = 0.6433 m,  y = 0.4312 m
+
 
    Summary
    --------
    • Total joint states: 21
-   • Velocity filter: active (|dθ| ≤ 1.0)
-   • Shared pose vector ref count: 1
-   • RAII cleanup complete - all resources released automatically.
+   • Velocity filter: active (|dθ| ≤ 1.0000)
 
    Program finished successfully.
 
