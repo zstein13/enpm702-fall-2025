@@ -11,6 +11,14 @@ Assignment 3 - Robot Kinematics and Control
 - **Total Points:** 36  
 - **Language:** C++17  
 
+.. admonition:: Changelog
+
+   **Version 1.2.0** (2025-10-30)
+
+   - Simplified the terminal output
+   - Removed shared pointer. Only use `std::unique_ptr`
+   - Updated the pseudocode for lambdas. Both lambdas must be created in the `main()` function
+
 
 ----------------------------------------------------
 Assignment Overview
