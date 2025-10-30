@@ -3,13 +3,13 @@
 # ============================
 
 # Core
-sphinx>=8.0
+sphinx>=7.3
 furo
 
 # Markdown & rich content
 myst-parser
-sphinx_design
-sphinx_copybutton
+sphinx-design>=0.6
+sphinx-copybutton
 sphinxcontrib-mermaid
 sphinxcontrib-pseudocode
 
