@@ -14,17 +14,41 @@
 /* ------------------------------------------------------------
  * 2. Pseudocode color theme variables
  * ------------------------------------------------------------ */
-:root {
+/* ===============================
+   Pseudocode color variables
+   =============================== */
+
+/* Light defaults + explicit light mode */
+:root,
+[data-theme="light"] {
   --furo-color-pseudocode-background: #f4f7f9;
   --furo-color-pseudocode-title-background: #dbe4ee;
   --furo-color-pseudocode-border: #3a6ea5;
 }
 
+/* Explicit dark mode */
 [data-theme="dark"] {
   --furo-color-pseudocode-background: #2a323d;
   --furo-color-pseudocode-title-background: #384250;
   --furo-color-pseudocode-border: #89a7ff;
 }
+
+/* Auto mode defaults to LIGHT… */
+[data-theme="auto"] {
+  --furo-color-pseudocode-background: #f4f7f9;
+  --furo-color-pseudocode-title-background: #dbe4ee;
+  --furo-color-pseudocode-border: #3a6ea5;
+}
+
+/* …but switch to DARK when the system prefers dark */
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] {
+    --furo-color-pseudocode-background: #2a323d;
+    --furo-color-pseudocode-title-background: #384250;
+    --furo-color-pseudocode-border: #89a7ff;
+  }
+}
+
 
 /* ------------------------------------------------------------
  * 3. Admonition styling (pseudocode)
