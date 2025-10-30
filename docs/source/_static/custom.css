@@ -1,36 +1,87 @@
-/* * 1. DEFINE a new "pseudocode" color set using Furo's naming system.
+/* ============================================================
+ * Custom Furo Enhancements
+ * ============================================================
+ * - Styled pseudocode admonition box
+ * - Font Awesome code icon (dark/light mode compatible)
+ * ============================================================
  */
 
-/* First, define the colors for light mode (the default :root) */
+/* ------------------------------------------------------------
+ * 1. Import Font Awesome (v6.5) for icon support
+ * ------------------------------------------------------------ */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+
+/* ------------------------------------------------------------
+ * 2. Pseudocode color theme variables
+ * ------------------------------------------------------------ */
 :root {
-  /* Using your original light blue theme */
   --furo-color-pseudocode-background: #f4f7f9;
   --furo-color-pseudocode-title-background: #dbe4ee;
-  --furo-color-pseudocode-border: #a6bddb;
+  --furo-color-pseudocode-border: #3a6ea5;
 }
 
-/* Next, define the same colors for dark mode */
 [data-theme="dark"] {
-  /* Here, we pick new colors that work for a dark theme */
-  --furo-color-pseudocode-background: #2a323d;   /* A dark blue-gray */
-  --furo-color-pseudocode-title-background: #384250; /* A slightly lighter dark blue */
-  --furo-color-pseudocode-border: #5b6e88;     /* A muted blue */
+  --furo-color-pseudocode-background: #2a323d;
+  --furo-color-pseudocode-title-background: #384250;
+  --furo-color-pseudocode-border: #89a7ff;
+}
+
+/* ------------------------------------------------------------
+ * 3. Admonition styling (pseudocode)
+ * ------------------------------------------------------------ */
+.admonition.pseudocode {
+  background-color: var(--furo-color-pseudocode-background);
+  border-left: 0.25rem solid var(--furo-color-pseudocode-border);
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.admonition.pseudocode > .admonition-title {
+  background-color: var(--furo-color-pseudocode-title-background);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------
+ * 4. Icon for pseudocode title
+ * ------------------------------------------------------------
+ * Using Font Awesome instead of mask icons for full theme support
+ * ------------------------------------------------------------ */
+.admonition.pseudocode > .admonition-title::before {
+  /* Reset Furo defaults completely */
+  mask: none !important;
+  -webkit-mask: none !important;
+  background: none !important;
+
+  /* Font Awesome icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  content: "\f121"; /* fa-code */
+  color: var(--furo-color-pseudocode-border);
+
+  /* Adjust layout to reduce leading space */
+  display: inline-block;
+  width: 1rem;              /* narrower width */
+  line-height: 1.1rem;
+  text-align: center;
+  margin-right: 0.7rem;    /* tighter spacing */
+  margin-left: -2.0rem;    /* pull icon slightly left */
+  position: relative;
+  top: 0.15rem;
 }
 
 
-/* * 2. APPLY these new variables to your .pseudocode class.
- * We'll mimic Furo's default admonition style (a left border, not a full box).
- */
-div.admonition.pseudocode {
-    background-color: var(--furo-color-pseudocode-background);
-    /* Furo uses a 'border-left' for its admonitions, not a full 'border' */
-    border-left: 0.2rem solid var(--furo-color-pseudocode-border);
-    /* Remove the old full-box border if you had one */
-    border-top: none;
-    border-right: none;
-    border-bottom: none;
+/* ------------------------------------------------------------
+ * 5. Minor readability improvements for code blocks
+ * ------------------------------------------------------------ */
+pre {
+  border-radius: 0.25rem;
+  padding: 0.75em;
+  font-size: 0.95em;
 }
 
-div.admonition.pseudocode p.admonition-title {
-    background-color: var(--furo-color-pseudocode-title-background);
+/* ------------------------------------------------------------
+ * 6. Utility tweaks
+ * ------------------------------------------------------------ */
+.admonition.pseudocode p {
+  margin-bottom: 0.4em;
 }

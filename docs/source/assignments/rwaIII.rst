@@ -349,7 +349,7 @@ Generate intermediate robot states between a start and goal configuration, and a
             :math:`\text{traj}[i] \leftarrow \text{filter}(\text{traj}[i])`
 
 
-   .. admonition:: Pseudocode: **Lambda: clamp_to_limit(v, limit)**
+   .. admonition:: Pseudocode **Lambda: clamp_to_limit(v, limit)**
       :class: pseudocode
       
       .. line-block::
