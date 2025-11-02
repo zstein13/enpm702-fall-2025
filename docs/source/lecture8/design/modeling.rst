@@ -21,6 +21,7 @@ During this phase, several diagrams are used to represent different perspectives
 Each diagram contributes to a comprehensive understanding of both the **structural** and
 **behavioral** aspects of the system.
 
+
 .. note::
 
    The naming conventions for **classes**, **attributes**, and **methods** used in these diagrams
@@ -33,9 +34,9 @@ Each diagram contributes to a comprehensive understanding of both the **structur
 Class Diagram
 ---------------
 
-The **Class Diagram** illustrates the static structure of the system by showing the main classes,
-their attributes, operations, and the relationships among them. It is the foundation of object-oriented
-design, helping to organize the system into modular and maintainable components.
+.. The **Class Diagram** illustrates the static structure of the system by showing the main classes,
+.. their attributes, operations, and the relationships among them. It is the foundation of object-oriented
+.. design, helping to organize the system into modular and maintainable components.
 
 .. only:: html
 
@@ -52,35 +53,98 @@ design, helping to organize the system into modular and maintainable components.
       :class: only-dark
 
 
-~~~~~~~~~~~~~~~~~~~~~~
-Class Box Structure
-~~~~~~~~~~~~~~~~~~~~~~
 
-Each **class** is represented as a box divided into three sections:
+This class diagram represents a simplified **vehicle control system**, showing how various entities
+interact and relate to each other through inheritance, composition, aggregation, and association.
+It models the structural organization of the system and the ownership or interaction patterns
+between its classes.
 
-1. **Class Name**  
-   The top compartment contains the name of the class. 
+~~~~~~~~~~~~~~~~
+Key Components
+~~~~~~~~~~~~~~~~
 
-   - Abstract classes are usually written in *italics*.  
-   - Interfaces may include a stereotype such as ``<<interface>>``.
+**Vehicle (Abstract Class)**
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2. **Attributes (Fields)**  
-   The middle compartment lists the data members.  
-   Format: ``visibility name : Type``  
+- **Purpose:** Defines the general structure and behavior common to all vehicle types.
+- **Attributes:**
 
-   - ``+`` = public  
-   - ``-`` = private  
-   - ``#`` = protected  
-   - ``~`` = package/internal
+  - ``color : String``
+  - ``model : String``
+  - ``isRunning : Boolean``
+- **Operations:**
 
-3. **Methods (Operations)**  
-   The bottom compartment lists behaviors. 
+  - ``startEngine()`` — Starts the vehicle's engine.
+  - ``stopEngine()`` — Stops the engine safely.
+  - ``{abstract} drive()`` — Must be implemented by subclasses.
 
-   - Format: ``visibility name(parameters) : ReturnType``  
+.. note::
+    The ``Vehicle`` class is abstract, meaning it cannot be instantiated directly.
+    It provides a consistent interface for all concrete vehicles.
 
-~~~~~~~~~~~~~~~~~~~~~~
-Relationship Types
-~~~~~~~~~~~~~~~~~~~~~~
+**Concrete Vehicle Types**
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+1. **Car**
+
+   - Adds ``numberOfDoors : int``
+   - Defines ``openTrunk()`` and implements ``drive()``
+
+2. **Truck**
+
+   - Adds ``cargoCapacity : double``
+   - Defines ``lowerTailgate()`` and implements ``drive()``
+
+3. **Train**
+
+   - Adds ``numberOfCars : int``
+   - Defines ``blowHorn()`` and implements ``drive()``
+
+Each subclass specializes the ``Vehicle`` class by providing concrete driving behavior and
+type-specific attributes.
+
+**Engine**
+^^^^^^^^^^
+
+- **Attributes:** ``horsepower : int``
+- **Operations:** ``start()``, ``stop()``
+- **Relationship:** Composition (``*--``) with ``Vehicle``.
+  A vehicle contains exactly one engine; if the vehicle is destroyed,
+  the engine is destroyed as well.
+- **Purpose:** Represents the mechanical subsystem responsible for power and motion.
+
+**Driver**
+^^^^^^^^^^
+
+- **Attributes:**
+
+  - ``name : String``
+  - ``licenseId : String``
+
+- **Operations:**
+
+  - ``takeControl(v: Vehicle)`` — Takes control of a vehicle.
+  - ``releaseControl()`` — Releases control.
+  - ``drive(v: Vehicle)`` — Commands a vehicle to drive.
+
+- **Relationship:** Aggregation (``o--``) with ``Vehicle``.
+  The driver operates a vehicle but does not own it; both exist independently.
+
+**Route**
+^^^^^^^^^
+
+- **Attributes:**
+
+  - ``routeId : String``
+  - ``startLocation : String``
+  - ``endLocation : String``
+  - ``distance : double``
+- **Operations:** ``getRouteInfo()``
+- **Relationship:** Association (``-->``) with ``Vehicle``.
+  A vehicle may follow zero or one route, while a route may be associated with multiple vehicles.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Relationship Summary
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :widths: 20 45 35
@@ -90,20 +154,172 @@ Relationship Types
      - **Description**
      - **Example**
    * - **Inheritance (Generalization)**
-     - Models an “is-a” relationship between a superclass and its subclasses.
-     - ``Vehicle <|-- Car`` or ``Vehicle <|-- Truck``
+     - Indicates an "is-a" hierarchy where subclasses extend a base class.
+     - .. only:: html
+
+          .. figure:: /_static/lecture8/design/inheritance-light.png
+             :alt: Inheritance (light)
+             :width: 300
+             :align: center
+             :class: only-light
+
+          .. figure:: /_static/lecture8/design/inheritance-dark.png
+             :alt: Inheritance (dark)
+             :width: 300
+             :align: center
+             :class: only-dark
+   * - **Composition**
+     - Strong ownership; the part cannot exist independently of the whole.
+     - .. only:: html
+
+          .. figure:: /_static/lecture8/design/composition-light.png
+             :alt: Composition (light)
+             :width: 300
+             :align: center
+             :class: only-light
+
+          .. figure:: /_static/lecture8/design/composition-dark.png
+             :alt: Composition (dark)
+             :width: 300
+             :align: center
+             :class: only-dark
+   * - **Aggregation**
+     - Weak ownership; objects can exist independently of one another.
+     - .. only:: html
+
+          .. figure:: /_static/lecture8/design/aggregation-light.png
+             :alt: Aggregation (light)
+             :width: 300
+             :align: center
+             :class: only-light
+
+          .. figure:: /_static/lecture8/design/aggregation-dark.png
+             :alt: Aggregation (dark)
+             :width: 300
+             :align: center
+             :class: only-dark
    * - **Association**
-     - A simple connection between two classes indicating that one uses or interacts with the other.
-     - ``Vehicle --> Route : follows``
-   * - **Aggregation (open diamond)**
-     - A “has-a” relationship with shared ownership. The part can exist independently of the whole.
-     - ``Driver o-- Vehicle : operates``
-   * - **Composition (filled diamond)**
-     - A strong ownership relationship; if the whole is destroyed, the part is too.
-     - ``Vehicle *-- Engine : contains``
-   * - **Dependency (dashed arrow)**
-     - Indicates that one class temporarily depends on another (e.g., as a parameter or return type).
-     - ``Application Layer ..> Domain Layer``
+     - Simple connection indicating interaction between two objects.
+     - .. only:: html
+
+          .. figure:: /_static/lecture8/design/association-light.png
+             :alt: Association (light)
+             :width: 300
+             :align: center
+             :class: only-light
+
+          .. figure:: /_static/lecture8/design/association-dark.png
+             :alt: Association (dark)
+             :width: 300
+             :align: center
+             :class: only-dark
+   * - **Dependency**
+     - A temporary or usage-based relationship.
+     - .. only:: html
+
+          .. figure:: /_static/lecture8/design/dependency-light.png
+             :alt: Dependency (light)
+             :width: 300
+             :align: center
+             :class: only-light
+
+          .. figure:: /_static/lecture8/design/dependency-dark.png
+             :alt: Dependency (dark)
+             :width: 300
+             :align: center
+             :class: only-dark
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Conceptual Analysis
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- **Encapsulation of Behavior:**  
+  The ``Vehicle`` encapsulates engine control internally. The ``Driver`` only interacts with the
+  ``Vehicle`` interface, never with the ``Engine`` directly. This promotes abstraction and separation
+  of concerns.
+
+- **Polymorphism:**  
+  Concrete vehicles override the abstract ``drive()`` method, enabling dynamic behavior depending
+  on the vehicle type at runtime.
+
+- **Optional Relationships:**  
+  The ``Route`` association is optional; a vehicle can operate without being assigned a route.
+  Similarly, a ``Driver`` may or may not be controlling a vehicle at a given time.
+
+- **Ownership Hierarchy:**  
+
+  - ``Vehicle`` **owns** ``Engine`` — composition.  
+  - ``Driver`` **operates** ``Vehicle`` — aggregation.  
+  - ``Vehicle`` **follows** ``Route`` — association.
+
+~~~~~~~~~~~~~~~~
+Summary
+~~~~~~~~~~~~~~~~
+
+This class diagram demonstrates several key object-oriented principles:
+
+- **Abstraction** through the abstract ``Vehicle`` class.  
+- **Inheritance** and **polymorphism** in specialized vehicle types.  
+- **Encapsulation** of functionality within cohesive classes.  
+- **Composition** and **aggregation** to model strong and weak ownership.  
+- **Clear separation of concerns** between control (Driver), behavior (Vehicle),
+  and resources (Engine, Route).
+
+Overall, the design offers modularity, flexibility for extension, and
+a realistic mapping between software classes and physical entities.
+
+.. ~~~~~~~~~~~~~~~~~~~~~~
+.. Class Box Structure
+.. ~~~~~~~~~~~~~~~~~~~~~~
+
+.. Each **class** is represented as a box divided into three sections:
+
+.. 1. **Class Name**  
+..    The top compartment contains the name of the class. 
+
+..    - Abstract classes are usually written in *italics*.  
+..    - Interfaces may include a stereotype such as ``<<interface>>``.
+
+.. 2. **Attributes (Fields)**  
+..    The middle compartment lists the data members.  
+..    Format: ``visibility name : Type``  
+
+..    - ``+`` = public  
+..    - ``-`` = private  
+..    - ``#`` = protected  
+..    - ``~`` = package/internal
+
+.. 3. **Methods (Operations)**  
+..    The bottom compartment lists behaviors. 
+
+..    - Format: ``visibility name(parameters) : ReturnType``  
+
+.. ~~~~~~~~~~~~~~~~~~~~~~
+.. Relationship Types
+.. ~~~~~~~~~~~~~~~~~~~~~~
+
+.. .. list-table::
+..    :widths: 20 45 35
+..    :header-rows: 1
+
+..    * - **Relationship**
+..      - **Description**
+..      - **Example**
+..    * - **Inheritance (Generalization)**
+..      - Models an “is-a” relationship between a superclass and its subclasses.
+..      - ``Vehicle <|-- Car`` or ``Vehicle <|-- Truck``
+..    * - **Association**
+..      - A simple connection between two classes indicating that one uses or interacts with the other.
+..      - ``Vehicle --> Route : follows``
+..    * - **Aggregation (open diamond)**
+..      - A “has-a” relationship with shared ownership. The part can exist independently of the whole.
+..      - ``Driver o-- Vehicle : operates``
+..    * - **Composition (filled diamond)**
+..      - A strong ownership relationship; if the whole is destroyed, the part is too.
+..      - ``Vehicle *-- Engine : contains``
+..    * - **Dependency (dashed arrow)**
+..      - Indicates that one class temporarily depends on another (e.g., as a parameter or return type).
+..      - ``Application Layer ..> Domain Layer``
 
 
 Sequence Diagram
@@ -314,7 +530,7 @@ System Architecture
 ---------------------
 
 The **System Architecture** defines the high-level organization of the system by grouping related classes into
-packages or layers. This structure clarifies the system’s modular design and the direction of dependencies between components.
+packages or layers. This structure clarifies the system's modular design and the direction of dependencies between components.
 By separating responsibilities, it enhances maintainability, testability, and scalability.
 
 **Context.** This system follows a **layered architecture**:
