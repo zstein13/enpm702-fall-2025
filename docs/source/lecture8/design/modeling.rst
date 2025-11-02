@@ -159,13 +159,13 @@ Relationship Summary
 
           .. figure:: /_static/lecture8/design/inheritance-light.png
              :alt: Inheritance (light)
-             :width: 300
+             :width: 200
              :align: center
              :class: only-light
 
           .. figure:: /_static/lecture8/design/inheritance-dark.png
              :alt: Inheritance (dark)
-             :width: 300
+             :width: 200
              :align: center
              :class: only-dark
    * - **Composition**
@@ -174,13 +174,13 @@ Relationship Summary
 
           .. figure:: /_static/lecture8/design/composition-light.png
              :alt: Composition (light)
-             :width: 300
+             :width: 200
              :align: center
              :class: only-light
 
           .. figure:: /_static/lecture8/design/composition-dark.png
              :alt: Composition (dark)
-             :width: 300
+             :width: 200
              :align: center
              :class: only-dark
    * - **Aggregation**
@@ -189,13 +189,13 @@ Relationship Summary
 
           .. figure:: /_static/lecture8/design/aggregation-light.png
              :alt: Aggregation (light)
-             :width: 300
+             :width: 200
              :align: center
              :class: only-light
 
           .. figure:: /_static/lecture8/design/aggregation-dark.png
              :alt: Aggregation (dark)
-             :width: 300
+             :width: 200
              :align: center
              :class: only-dark
    * - **Association**
@@ -204,13 +204,13 @@ Relationship Summary
 
           .. figure:: /_static/lecture8/design/association-light.png
              :alt: Association (light)
-             :width: 300
+             :width: 200
              :align: center
              :class: only-light
 
           .. figure:: /_static/lecture8/design/association-dark.png
              :alt: Association (dark)
-             :width: 300
+             :width: 200
              :align: center
              :class: only-dark
    * - **Dependency**
@@ -219,13 +219,13 @@ Relationship Summary
 
           .. figure:: /_static/lecture8/design/dependency-light.png
              :alt: Dependency (light)
-             :width: 300
+             :width: 200
              :align: center
              :class: only-light
 
           .. figure:: /_static/lecture8/design/dependency-dark.png
              :alt: Dependency (dark)
-             :width: 300
+             :width: 200
              :align: center
              :class: only-dark
 
