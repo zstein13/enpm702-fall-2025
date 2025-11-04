@@ -18,7 +18,7 @@ Learning Outcomes
 - Master **callables**: function pointers, functors, lambdas, and ``std::function``.
 
 .. tip::
-   Compile examples with ``-std=c++17 -Wall -Wextra -Wpedantic -Werror`` for strong diagnostics.
+   Compile examples with ``-std=c++17 -Wall -Wextra -pedantic-errors -Werror`` for strong diagnostics.
 
 Detailed Topics
 ---------------
