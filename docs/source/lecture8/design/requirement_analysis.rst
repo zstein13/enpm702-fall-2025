@@ -85,8 +85,6 @@ Technical Constraints
      - **Description**
    * - Namespace Organization
      - All domain classes (Vehicle, Car, Truck, Train, Engine, Driver, Route) shall be encapsulated within the ``transportation`` namespace to provide logical grouping and prevent naming conflicts.
-   * - Layered Architecture
-     - Presentation → Application → Domain; Application ↔ Infrastructure via repositories/gateways; Domain independent of frameworks.
    * - Encapsulation
      - Drivers shall not call Engine directly. All powertrain operations pass through the Vehicle API.
    * - Composition Rule

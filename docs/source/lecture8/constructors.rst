@@ -35,7 +35,7 @@ Compiler-Generated Behavior
 
 If you don't define **any** constructor, the compiler generates a default constructor that:
 
-1. Leaves built-in types (``int``, ``double``, pointers) **uninitialized** (garbage values)
+1. Leaves built-in types (``int``, ``double``, etc) **uninitialized** (garbage values)
 2. Calls default constructor for user-defined type members (``std::string``, etc.)
 3. Uses in-class initializers if provided
 
@@ -77,7 +77,7 @@ User-Defined Default Constructor
        }
    };
    
-   Vehicle car;  // User-defined constructor called
+   transportation::Vehicle car;  // User-defined constructor called
 
 .. note::
 
@@ -112,8 +112,8 @@ Parameterized Constructors
        }
    };
    
-   Vehicle car1{"red", "sedan", 120};  // Uses first constructor
-   Vehicle car2{150};                   // Uses second constructor
+   transportation::Vehicle car1{"red", "sedan", 120};  // Uses first constructor
+   transportation::Vehicle car2{150};                   // Uses second constructor
 
 .. warning::
 

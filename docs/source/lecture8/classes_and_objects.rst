@@ -7,11 +7,6 @@ Classes
 
 **Definition:** A class is a **blueprint** or template for creating objects.
 
-.. figure:: figures/ENPM702/L8_OOP_Basics/vehicle_blueprint.png
-   :align: center
-   :width: 300px
-   
-   A class defines the structure, not the actual data
 
 Components of a Class
 ~~~~~~~~~~~~~~~~~~~~~
@@ -78,11 +73,6 @@ Objects
 
 **Definition:** An object is a **concrete instance** of a class.
 
-.. figure:: figures/ENPM702/L8_OOP_Basics/vehicle_objects.png
-   :align: center
-   :width: 300px
-   
-   Objects are actual vehicles you can use
 
 Characteristics of Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,11 +96,6 @@ Characteristics of Objects
    blue_car.start_engine();  // Same method implementation
    red_car.start_engine();   // Same method implementation
 
-.. figure:: figures/ENPM702/L8_OOP_Basics/objects_methods.png
-   :align: center
-   :width: 600px
-   
-   All objects share the same methods
 
 Object Independence
 ~~~~~~~~~~~~~~~~~~~
@@ -128,12 +113,6 @@ Instantiation
 -------------
 
 **Instantiation** is the process of creating a new object from a class blueprint.
-
-.. figure:: figures/ENPM702/L8_OOP_Basics/instantiation.png
-   :align: center
-   :width: 600px
-   
-   From blueprint to actual objects
 
 Stack vs. Heap Allocation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
