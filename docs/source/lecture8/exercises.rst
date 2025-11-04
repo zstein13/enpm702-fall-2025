@@ -37,7 +37,7 @@ Create a complete ``BankAccount`` class demonstrating proper encapsulation and m
 - Create a project with ``include/bank_account.hpp`` and ``src/bank_account.cpp``
 - Write ``main.cpp`` demonstrating all operations
 - Add Doxygen comments to all public members
-- Compile with ``-Wall -Wextra -pedantic -Werror``
+- Compile with ``-Wall -Wextra -pedantic-errors -Werror``
 - **Verify:** Attempting to access private members directly fails to compile
 
 
