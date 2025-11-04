@@ -30,13 +30,14 @@ Each diagram contributes to a comprehensive understanding of both the **structur
    ``string``). This abstraction ensures that the design can be applied across multiple programming
    languages and paradigms without being tied to a specific implementation syntax.
 
+.. note::
+
+   In the C++ implementation, all classes are organized within the ``transportation`` namespace.
+   This provides a logical grouping of related components and prevents naming conflicts with other
+   libraries or system components.
 
 Class Diagram
 ---------------
-
-.. The **Class Diagram** illustrates the static structure of the system by showing the main classes,
-.. their attributes, operations, and the relationships among them. It is the foundation of object-oriented
-.. design, helping to organize the system into modular and maintainable components.
 
 .. only:: html
 
@@ -52,12 +53,15 @@ Class Diagram
       :width: 100%
       :class: only-dark
 
-
-
 This class diagram represents a simplified **vehicle control system**, showing how various entities
 interact and relate to each other through inheritance, composition, aggregation, and association.
 It models the structural organization of the system and the ownership or interaction patterns
 between its classes.
+
+.. note::
+
+   All classes in the domain layer are organized within the ``transportation`` namespace, providing
+   logical grouping and preventing naming conflicts with other system components.
 
 ~~~~~~~~~~~~~~~~
 Key Components
@@ -67,80 +71,113 @@ Key Components
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - **Purpose:** Defines the general structure and behavior common to all vehicle types.
+- **Namespace:** ``transportation``
 - **Attributes:**
 
-  - ``color : String``
-  - ``model : String``
-  - ``isRunning : Boolean``
+  - ``color : String`` – The exterior color of the vehicle for identification purposes
+  - ``model : String`` – The model name or designation of the vehicle (e.g., "Sedan", "SUV")
+  - ``isRunning : Boolean`` – Indicates whether the vehicle's engine is currently running
+  - ``maxSpeed : int`` – The maximum speed the vehicle can achieve (in km/h or mph)
+  - ``engine : Engine`` – The vehicle's powertrain component (composition relationship)
+
 - **Operations:**
 
-  - ``startEngine()`` — Starts the vehicle's engine.
-  - ``stopEngine()`` — Stops the engine safely.
-  - ``{abstract} drive()`` — Must be implemented by subclasses.
+  - ``startEngine()`` — Starts the vehicle's engine if not already running; returns error if already running
+  - ``stopEngine()`` — Stops the engine safely; validates vehicle is in a safe state
+  - ``{abstract} drive()`` — Must be implemented by subclasses to define type-specific driving behavior
 
 .. note::
     The ``Vehicle`` class is abstract, meaning it cannot be instantiated directly.
-    It provides a consistent interface for all concrete vehicles.
+    It provides a consistent interface for all concrete vehicles and enforces safety guards
+    such as rejecting invalid state transitions (e.g., starting an already running engine).
 
 **Concrete Vehicle Types**
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+All concrete vehicle types reside in the ``transportation`` namespace and inherit from ``Vehicle``.
+
 1. **Car**
 
-   - Adds ``numberOfDoors : int``
-   - Defines ``openTrunk()`` and implements ``drive()``
+   - **Additional Attributes:** ``numberOfDoors : int`` – Number of passenger doors
+   - **Operations:**
+     
+     - ``openTrunk()`` – Opens the trunk compartment
+     - ``drive()`` – Implements car-specific driving behavior
 
 2. **Truck**
 
-   - Adds ``cargoCapacity : double``
-   - Defines ``lowerTailgate()`` and implements ``drive()``
+   - **Additional Attributes:** ``cargoCapacity : double`` – Maximum cargo weight capacity (in kg or tons)
+   - **Operations:**
+     
+     - ``lowerTailgate()`` – Lowers the rear tailgate for loading
+     - ``drive()`` – Implements truck-specific driving behavior with cargo considerations
 
 3. **Train**
 
-   - Adds ``numberOfCars : int``
-   - Defines ``blowHorn()`` and implements ``drive()``
+   - **Additional Attributes:** ``numberOfCars : int`` – Number of connected railway cars
+   - **Operations:**
+     
+     - ``blowHorn()`` – Activates the train horn
+     - ``drive()`` – Implements train-specific driving behavior along tracks
 
 Each subclass specializes the ``Vehicle`` class by providing concrete driving behavior and
-type-specific attributes.
+type-specific attributes and operations.
 
 **Engine**
 ^^^^^^^^^^
 
-- **Attributes:** ``horsepower : int``
-- **Operations:** ``start()``, ``stop()``
+- **Namespace:** ``transportation``
+- **Attributes:** ``horsepower : int`` – Engine power rating
+- **Operations:** 
+  
+  - ``start()`` – Initiates engine operation (completes within 200 ms)
+  - ``stop()`` – Shuts down engine operation (completes within 200 ms)
+
 - **Relationship:** Composition (``*--``) with ``Vehicle``.
   A vehicle contains exactly one engine; if the vehicle is destroyed,
-  the engine is destroyed as well.
+  the engine is destroyed as well. This enforces the constraint that each
+  vehicle has a single, bound powertrain.
 - **Purpose:** Represents the mechanical subsystem responsible for power and motion.
+
+.. important::
+   **Encapsulation Rule:** Drivers and other external actors cannot interact directly with
+   the Engine. All powertrain operations must pass through the Vehicle API, which manages
+   engine state and enforces safety constraints.
 
 **Driver**
 ^^^^^^^^^^
 
+- **Namespace:** ``transportation``
 - **Attributes:**
 
-  - ``name : String``
-  - ``licenseId : String``
+  - ``name : String`` – Driver's name
+  - ``licenseId : String`` – Unique driver license identifier
 
 - **Operations:**
 
-  - ``takeControl(v: Vehicle)`` — Takes control of a vehicle.
-  - ``releaseControl()`` — Releases control.
-  - ``drive(v: Vehicle)`` — Commands a vehicle to drive.
+  - ``takeControl(v: Vehicle)`` — Takes control of a vehicle; must succeed before issuing commands
+  - ``releaseControl()`` — Releases control of the current vehicle
+  - ``drive(v: Vehicle)`` — Commands a vehicle to drive; vehicle must be under control
 
 - **Relationship:** Aggregation (``o--``) with ``Vehicle``.
   The driver operates a vehicle but does not own it; both exist independently.
+  A driver may or may not be in control of a vehicle at any given time.
 
 **Route**
 ^^^^^^^^^
 
+- **Namespace:** ``transportation``
 - **Attributes:**
 
-  - ``routeId : String``
-  - ``startLocation : String``
-  - ``endLocation : String``
-  - ``distance : double``
-- **Operations:** ``getRouteInfo()``
+  - ``routeId : String`` – Unique route identifier
+  - ``startLocation : String`` – Starting point of the route
+  - ``endLocation : String`` – Destination point of the route
+  - ``distance : double`` – Total route distance (in km or miles)
+
+- **Operations:** ``getRouteInfo()`` – Retrieves route segment information (< 50 ms per segment)
 - **Relationship:** Association (``-->``) with ``Vehicle``.
   A vehicle may follow zero or one route, while a route may be associated with multiple vehicles.
+  Route association is optional; vehicles can operate without an assigned route.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Relationship Summary
@@ -236,11 +273,12 @@ Conceptual Analysis
 - **Encapsulation of Behavior:**  
   The ``Vehicle`` encapsulates engine control internally. The ``Driver`` only interacts with the
   ``Vehicle`` interface, never with the ``Engine`` directly. This promotes abstraction and separation
-  of concerns.
+  of concerns, and enforces the technical constraint that drivers cannot call Engine directly.
 
 - **Polymorphism:**  
   Concrete vehicles override the abstract ``drive()`` method, enabling dynamic behavior depending
-  on the vehicle type at runtime.
+  on the vehicle type at runtime. This satisfies the requirement for polymorphic driving behavior
+  across Car, Truck, and Train subtypes.
 
 - **Optional Relationships:**  
   The ``Route`` association is optional; a vehicle can operate without being assigned a route.
@@ -248,9 +286,26 @@ Conceptual Analysis
 
 - **Ownership Hierarchy:**  
 
-  - ``Vehicle`` **owns** ``Engine`` — composition.  
-  - ``Driver`` **operates** ``Vehicle`` — aggregation.  
-  - ``Vehicle`` **follows** ``Route`` — association.
+  - ``Vehicle`` **owns** ``Engine`` — composition (single engine per vehicle).  
+  - ``Driver`` **operates** ``Vehicle`` — aggregation (independent lifecycles).  
+  - ``Vehicle`` **follows** ``Route`` — association (optional relationship).
+
+- **Safety and Error Handling:**
+  The ``Vehicle`` enforces safety guards by rejecting invalid commands (e.g., starting an already
+  running engine, driving without driver control) and returning descriptive error codes and messages.
+
+~~~~~~~~~~~~~~~~
+Performance Requirements
+~~~~~~~~~~~~~~~~
+
+.. note::
+
+   **Performance Constraints:**
+   
+   - Engine ``start()`` and ``stop()`` operations complete within **200 ms**
+   - Route ``getRouteInfo()`` retrieval completes within **50 ms per segment**
+   - Control operations maintain **99.5% availability** during test sessions
+   - All state transitions are logged with timestamps and entity identifiers
 
 ~~~~~~~~~~~~~~~~
 Summary
@@ -264,63 +319,11 @@ This class diagram demonstrates several key object-oriented principles:
 - **Composition** and **aggregation** to model strong and weak ownership.  
 - **Clear separation of concerns** between control (Driver), behavior (Vehicle),
   and resources (Engine, Route).
+- **Safety constraints** enforced through validated state transitions and error handling.
 
 Overall, the design offers modularity, flexibility for extension, and
-a realistic mapping between software classes and physical entities.
-
-.. ~~~~~~~~~~~~~~~~~~~~~~
-.. Class Box Structure
-.. ~~~~~~~~~~~~~~~~~~~~~~
-
-.. Each **class** is represented as a box divided into three sections:
-
-.. 1. **Class Name**  
-..    The top compartment contains the name of the class. 
-
-..    - Abstract classes are usually written in *italics*.  
-..    - Interfaces may include a stereotype such as ``<<interface>>``.
-
-.. 2. **Attributes (Fields)**  
-..    The middle compartment lists the data members.  
-..    Format: ``visibility name : Type``  
-
-..    - ``+`` = public  
-..    - ``-`` = private  
-..    - ``#`` = protected  
-..    - ``~`` = package/internal
-
-.. 3. **Methods (Operations)**  
-..    The bottom compartment lists behaviors. 
-
-..    - Format: ``visibility name(parameters) : ReturnType``  
-
-.. ~~~~~~~~~~~~~~~~~~~~~~
-.. Relationship Types
-.. ~~~~~~~~~~~~~~~~~~~~~~
-
-.. .. list-table::
-..    :widths: 20 45 35
-..    :header-rows: 1
-
-..    * - **Relationship**
-..      - **Description**
-..      - **Example**
-..    * - **Inheritance (Generalization)**
-..      - Models an “is-a” relationship between a superclass and its subclasses.
-..      - ``Vehicle <|-- Car`` or ``Vehicle <|-- Truck``
-..    * - **Association**
-..      - A simple connection between two classes indicating that one uses or interacts with the other.
-..      - ``Vehicle --> Route : follows``
-..    * - **Aggregation (open diamond)**
-..      - A “has-a” relationship with shared ownership. The part can exist independently of the whole.
-..      - ``Driver o-- Vehicle : operates``
-..    * - **Composition (filled diamond)**
-..      - A strong ownership relationship; if the whole is destroyed, the part is too.
-..      - ``Vehicle *-- Engine : contains``
-..    * - **Dependency (dashed arrow)**
-..      - Indicates that one class temporarily depends on another (e.g., as a parameter or return type).
-..      - ``Application Layer ..> Domain Layer``
-
+a realistic mapping between software classes and physical entities, while satisfying
+both functional and non-functional requirements.
 
 Sequence Diagram
 -----------------
@@ -347,34 +350,68 @@ flows through the system to accomplish a specific task.
 Participants
 ~~~~~~~~~~~~~~~~~~~~~~
 
-- **Driver** – External actor initiating commands.  
-- **Vehicle** – Responds to driver requests and controls internal behavior.  
-- **Engine** – Performs physical start/stop operations.  
-- **Route** – (Optional) Provides path information for navigation.
+All participants belong to the ``transportation`` namespace in the implementation:
+
+- **Driver** – External actor initiating commands; must take control before issuing operations.  
+- **Vehicle** – Responds to driver requests, manages internal state, and controls the engine.  
+- **Engine** – Performs physical start/stop operations (200 ms completion target).  
+- **Route** – (Optional) Provides path information for navigation (50 ms per segment retrieval).
 
 ~~~~~~~~~~~~~~~~~~~~~~
 Message Flow
 ~~~~~~~~~~~~~~~~~~~~~~
 
 1. **Driver takes control** of the vehicle (``takeControl(v)``).  
+   - Vehicle validates the request and grants control.
+   - Without control, subsequent commands will be rejected.
+
 2. **Driver requests** the vehicle to start the engine (``startEngine()``).  
-   - Vehicle checks ``isRunning``.  
-   - If not running, Vehicle delegates ``start()`` to the Engine.  
-   - If already running, it returns a status message.  
+   - Vehicle checks ``isRunning`` state.  
+   - If not running, Vehicle delegates ``start()`` to the Engine (completes within 200 ms).  
+   - If already running, it returns an error status with descriptive message.
+   - State transition is logged with timestamp and vehicle identifier.
+
 3. **Driver initiates driving** (``drive()``).  
+   - Vehicle validates that it is under control and engine is running.
    - Vehicle may optionally follow a ``Route`` if one is assigned.  
-   - During driving, Vehicle adjusts engine power per segment.  
+   - During driving, Vehicle adjusts engine power per segment (Route retrieval < 50 ms per segment).
+   - Polymorphic ``drive()`` behavior executes based on vehicle subtype (Car, Truck, or Train).
+
 4. **Driver stops and releases control**.  
-   - Vehicle stops the engine (``stopEngine()`` → ``Engine.stop()``).  
-   - Control returns to the driver.
+   - Vehicle stops the engine (``stopEngine()`` → ``Engine.stop()``).
+   - Engine stop completes within 200 ms.
+   - State transition is logged.
+   - Control returns to the driver via ``releaseControl()``.
 
 ~~~~~~~~~~~~~~~~~~~~~~
 Control Constructs
 ~~~~~~~~~~~~~~~~~~~~~~
 
-- **alt [isRunning == false / true]**: Vehicle decides whether to start or skip engine startup.  
-- **opt [route assigned]**: Route interaction occurs only when a route exists.  
+- **alt [isRunning == false / true]**: Vehicle decides whether to start or skip engine startup based on current state.  
+- **opt [route assigned]**: Route interaction occurs only when a route exists (optional relationship).  
 - **loop [for each segment]**: Vehicle iterates over route segments during driving.  
+
+~~~~~~~~~~~~~~~~~~~~~~
+Error Handling
+~~~~~~~~~~~~~~~~~~~~~~
+
+The sequence diagram demonstrates error handling for invalid state transitions:
+
+- Attempting to start an already running engine returns an error message
+- Commands issued without driver control are rejected
+- All errors include machine-readable codes and human-readable descriptions
+- State validation occurs before executing operations
+
+~~~~~~~~~~~~~~~~~~~~~~
+Observability
+~~~~~~~~~~~~~~~~~~~~~~
+
+All key lifecycle events are logged with structured information:
+
+- Control acquired/released (driver ID, vehicle ID, timestamp)
+- Engine started/stopped (vehicle ID, timestamp, operation duration)
+- Route assigned/cleared (vehicle ID, route ID, timestamp)
+- Command outcomes (success/failure, error codes if applicable)
 
 ~~~~~~~~~~~~~~~~~~~~~~
 Summary
@@ -383,13 +420,14 @@ Summary
 The sequence diagram complements the class diagram by showing the **runtime collaboration**
 of objects. It clarifies the responsibilities of each component:
 
-- The **Driver** only issues commands.  
-- The **Vehicle** owns the operational logic and delegates engine control internally.  
-- The **Engine** executes low-level start/stop actions.  
+- The **Driver** only issues commands and must establish control first.  
+- The **Vehicle** owns the operational logic, enforces safety guards, and delegates engine control internally.  
+- The **Engine** executes low-level start/stop actions within performance constraints.  
 - The **Route** is consulted optionally to support navigation.
 
 Together, the class, sequence, and state machine diagrams provide a complete behavioral
-and structural model of the vehicle system.
+and structural model of the vehicle system that satisfies both functional requirements
+(FR-1 through FR-10) and non-functional requirements (performance, safety, observability).
 
 
 
@@ -537,7 +575,7 @@ By separating responsibilities, it enhances maintainability, testability, and sc
 
 - **Presentation Layer**: Interfaces like ``DriverUI`` handle user input.  
 - **Application Layer**: ``VehicleController`` coordinates actions and interacts with services.  
-- **Domain Layer**: Core entities like ``Vehicle``, ``Engine``, ``Driver``, and ``Route`` encapsulate business logic.  
+- **Domain Layer**: Core entities like ``Vehicle``, ``Engine``, ``Driver``, and ``Route`` encapsulate business logic within the ``transportation`` namespace.  
 - **Infrastructure Layer**: Classes like ``VehicleRepository`` or ``MapServiceClient`` handle persistence and integration.
 
 ``Vehicle`` is an abstract base class with subclasses ``Car``, ``Truck``, and ``Train``.
@@ -555,27 +593,35 @@ The system is divided into **four logical layers**, each responsible for a disti
    - Handles user interaction and interface-related functionality.
    - Collects user input (e.g., from ``DriverUI``) and forwards requests to the application layer.
    - Does not contain business logic; its sole role is to communicate with the underlying services.
+   - Depends on: Application Layer
 
 2. **Application Layer**
    - Coordinates use cases and workflows that involve multiple domain entities.
    - Contains classes like ``VehicleController`` and ``RoutingService`` that orchestrate domain logic.
+   - Enforces business rules and transaction boundaries.
+   - Validates requests before delegating to domain entities.
    - Relies on the domain layer for rules and entities, and the infrastructure layer for persistence or external communication.
+   - Depends on: Domain Layer, Infrastructure Layer
 
 3. **Domain Layer**
    - Represents the **core business logic** and fundamental concepts of the system.
-   - Includes entities such as ``Vehicle``, ``Engine``, ``Route``, and ``Driver``.
-   - Implements rules like engine control, route following, and driver operations.
+   - All domain classes are encapsulated within the ``transportation`` namespace.
+   - Includes entities such as ``Vehicle``, ``Car``, ``Truck``, ``Train``, ``Engine``, ``Route``, and ``Driver``.
+   - Implements rules like engine control, polymorphic driving behavior, route following, and driver operations.
+   - Enforces safety constraints and state validation.
    - Should remain independent of infrastructure or presentation technologies.
+   - Depends on: None (no external dependencies)
 
 4. **Infrastructure Layer**
    - Provides technical capabilities like persistence, communication, and data access.
    - Contains adapters and repositories such as ``VehicleRepository``, ``RouteRepository``, ``TelemetryGateway``, and ``MapServiceClient``.
-   - Depends on the domain layer to understand entity structures but not vice versa.
+   - Implements interfaces defined by the application layer (Dependency Inversion Principle).
+   - Handles DTO/ORM mapping between domain entities and external systems.
+   - Depends on: Domain Layer (for entity structures)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Dependency Flow and Purpose
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 .. figure:: /_static/lecture8/design/system_architecture_diagram_light.png
    :alt: Layered System Architecture
@@ -593,24 +639,41 @@ Dependency Flow and Purpose
 
 - **Presentation → Application → Domain**  
   The Presentation layer calls Application services, which in turn coordinate Domain logic.
+  This ensures the UI layer never directly manipulates domain entities.
 
 - **Application ↔ Infrastructure**  
   The Application layer depends on Infrastructure interfaces (repositories, gateways), while Infrastructure provides their implementations.
+  This allows swapping infrastructure components without affecting business logic.
 
 - **Infrastructure ..> Domain**  
   Infrastructure depends on the Domain for data structures and mapping definitions.
+  The dependency is shown as dashed to indicate it's primarily for DTO/ORM mapping purposes.
+
+**Technical Constraints Enforced:**
+
+- **Encapsulation:** Drivers interact only with the Vehicle interface, never directly with the Engine. This is enforced through the layered structure where all engine operations are delegated through Vehicle methods.
+  
+- **Composition Rule:** Each Vehicle contains exactly one Engine; their lifecycles are bound together. This is implemented in the Domain layer and managed by the Application layer.
+
+- **Optional Route:** Route association is optional; vehicles can operate without one. The Application layer coordinates route assignment without making it mandatory.
+
+- **Layer Independence:** The Domain layer remains framework-agnostic and contains no dependencies on external libraries or infrastructure concerns.
+
+- **Error Handling:** All commands flow through the Application layer, which ensures typed results with machine-readable error codes and human-readable messages are returned to the Presentation layer.
+
+- **Separation of Concerns:** Static analysis enforces zero direct dependencies from Presentation to Domain or Infrastructure; only the Application layer mediates (< 10% cyclic dependency density requirement).
 
 **Benefits of the Layered Approach:**
 
 - **Modularity:** Each layer focuses on a specific concern, making it easier to understand and modify.  
-- **Maintainability:** Changes in one layer have minimal impact on others.  
+- **Maintainability:** Changes in one layer have minimal impact on others; adding new vehicle types requires no changes to existing consumers.  
 - **Testability:** Domain and Application logic can be tested independently of the UI or data storage.  
 - **Replaceability:** Infrastructure components (e.g., databases, map clients) can be swapped with minimal code changes.  
+- **Extensibility:** Adding new vehicle subtypes requires no changes beyond domain layer extension and registration.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Inter-Layer Mapping
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 .. list-table::
    :widths: 25 25 50
@@ -621,28 +684,56 @@ Inter-Layer Mapping
      - **Responsibilities**
    * - **Presentation**
      - ``DriverUI``
-     - Collects user input, displays system output, and forwards user actions to the Application layer.
+     - Collects user input, displays system output, and forwards user actions to the Application layer. Formats responses for user consumption.
    * - **Application**
      - ``VehicleController``, ``RoutingService``
-     - Manages use cases, orchestrates domain objects, and enforces system-level workflows.
+     - Manages use cases, orchestrates domain objects, enforces system-level workflows, validates requests, handles transactions, and ensures observability through event logging.
    * - **Domain**
-     - ``Vehicle``, ``Car``, ``Truck``, ``Train``, ``Engine``, ``Driver``, ``Route``
-     - Implements business logic, relationships, and state transitions.
+     - ``transportation::Vehicle``, ``transportation::Car``, ``transportation::Truck``, ``transportation::Train``, ``transportation::Engine``, ``transportation::Driver``, ``transportation::Route``
+     - Implements business logic, relationships, polymorphic behavior, state transitions, and safety constraints. All classes organized in the ``transportation`` namespace.
    * - **Infrastructure**
      - ``VehicleRepository``, ``RouteRepository``, ``TelemetryGateway``, ``MapServiceClient``
-     - Handles persistence, communication, and external data integration.
+     - Handles persistence, communication, external data integration, and provides concrete implementations of repository interfaces defined by the application layer.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Performance and Quality Attributes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The architecture supports the following non-functional requirements:
+
+- **Performance:** 
+  - Engine operations complete within 200 ms (managed by Domain/Infrastructure coordination)
+  - Route segment retrieval < 50 ms (Infrastructure layer optimization)
+  
+- **Reliability:**
+  - Application layer handles transient failures with retries and clear error reporting
+  - Mean time between recoverable faults > 24 hours for demo workloads
+
+- **Observability:**
+  - All state transitions emit structured events with timestamps and identifiers
+  - Application layer coordinates logging across all layers
+  - TelemetryGateway in Infrastructure publishes events for monitoring
+
+- **Availability:**
+  - Control and status operations maintain 99.5% availability
+  - Application layer implements circuit breakers and graceful degradation
+
+- **Safety:**
+  - Domain layer validates all state transitions
+  - Application layer enforces preconditions before delegating to domain
+  - Prevents unsafe operations (e.g., stopping engine while in motion)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Architectural View
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 The architecture enforces a **clean separation of concerns**, ensuring that:
 
-- The **Domain Layer** remains technology-agnostic and reusable across projects.  
-- The **Application Layer** drives behavior without knowing how infrastructure is implemented.  
-- The **Presentation Layer** simply provides the interface for users or systems.  
-- The **Infrastructure Layer** plugs in concrete implementations for persistence, messaging, and APIs.
+- The **Domain Layer** remains technology-agnostic and reusable across projects, encapsulated in the ``transportation`` namespace.  
+- The **Application Layer** drives behavior without knowing how infrastructure is implemented, coordinating between domain logic and external systems.  
+- The **Presentation Layer** simply provides the interface for users or systems without business logic.  
+- The **Infrastructure Layer** plugs in concrete implementations for persistence, messaging, and APIs without affecting domain rules.
 
 Together, these layers support a **flexible, modular, and extensible system design** consistent with modern object-oriented
-and domain-driven design principles.
+and domain-driven design principles, while satisfying all functional requirements (FR-1 through FR-10) and non-functional
+requirements (performance, reliability, safety, availability, observability, maintainability, and extensibility).
