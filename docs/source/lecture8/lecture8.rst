@@ -54,10 +54,12 @@ The following sections explore each topic in Lecture 8:
 
    design
    core_principles
+   modern_cpp_features
    classes_and_objects
    encapsulation
    constructors
-   modern_cpp_features
+   static_member
+   this_pointer
    exercises
    references
 

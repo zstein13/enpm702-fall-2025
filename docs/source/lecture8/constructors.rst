@@ -266,6 +266,19 @@ Detailed Example: Two-Step Problem
    param ctor A      ← a_ constructed directly with A(2)
    default ctor B    ← B constructor body
 
+C++ Object Construction Order
+-----------------------------
+
+When an object is created, C++ follows a strict initialization sequence:
+
+1. **Base class constructors** — If the class inherits from a base class, the base class constructor(s) execute first (in declaration order for multiple inheritance).
+2. **Member attribute constructors** — All member objects are constructed in the order they are *declared* in the class definition, regardless of the order in the member initializer list.
+3. **Constructor body** — Finally, the statements in the constructor body execute.
+
+.. important::
+
+   The order in the member initializer list does **not** affect the initialization order. Members are always initialized in **declaration order**.
+
 Constructor Initialization Order
 ---------------------------------
 
@@ -288,6 +301,108 @@ Members are **always initialized in declaration order**, not the order in the in
 .. tip::
 
    Match initializer list order to declaration order for readability, even though it doesn't affect execution.
+
+Declaration Order Matters
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: cpp
+
+   class Rectangle {
+   private:
+       double area_;   // 1. initialized FIRST
+       double width_;  // 2. initialized SECOND
+       double height_; // 3. initialized THIRD
+       
+   public:
+       Rectangle(double w, double h)
+           : width_{w}, height_{h}, area_{width_ * height_} {
+           // ❌ PROBLEM: area_ is computed using uninitialized width_ and height_!
+           // area_ initializes FIRST, but width_ and height_ haven't been set yet
+       }
+   };
+
+   int main() {
+       Rectangle rect(4, 10);  // area_ will have garbage value!
+   }
+
+**The Problem:** Even though ``width_{w}`` and ``height_{h}`` appear before ``area_{width_ * height_}`` in the initializer list, ``area_`` is initialized first (with uninitialized ``width_`` and ``height_``) because of declaration order.
+
+**Solution:** Reorder the declarations:
+
+.. code-block:: cpp
+
+   class Rectangle {
+   private:
+       double width_;  // 1. initialized FIRST
+       double height_; // 2. initialized SECOND
+       double area_;   // 3. initialized THIRD
+       
+   public:
+       Rectangle(double w, double h)
+           : width_{w}, height_{h}, area_{width_ * height_} {
+           // ✓ OK: width_ and height_ are initialized before area_
+       }
+   };
+
+const Objects
+-------------
+
+Definition
+~~~~~~~~~~
+
+A **const object** is an instance of a class whose state cannot be modified after it is created.
+
+.. code-block:: cpp
+
+   const Vehicle car("White", "Camry", 113);
+   car.start_engine();  // ❌ Error: cannot call non-const method on const object
+
+Key Rules
+~~~~~~~~~
+
+When you declare an object as ``const``, all its non-``const`` methods become inaccessible—only methods marked as ``const`` can be called.
+
+This enforces **read-only access** to the object's internal data and ensures **const-correctness**.
+
+.. code-block:: cpp
+
+   class Vehicle {
+   private:
+       std::string model_;
+       bool is_running_{false};
+       
+   public:
+       Vehicle(const std::string& model) : model_{model} {}
+       
+       // Non-const method
+       void start_engine() {
+           is_running_ = true;
+       }
+       
+       // Const method
+       [[nodiscard]] const std::string& get_model() const noexcept {
+           return model_;
+       }
+       
+       [[nodiscard]] bool is_running() const noexcept {
+           return is_running_;
+       }
+   };
+
+   int main() {
+       const Vehicle car("Camry");
+       
+       // ✓ OK: calling const methods
+       std::cout << car.get_model() << '\n';
+       std::cout << car.is_running() << '\n';
+       
+       // ❌ Error: cannot call non-const method on const object
+       car.start_engine();
+   }
+
+.. note::
+
+   Non-``const`` objects can access both ``const`` and non-``const`` methods, but ``const`` objects can only access ``const`` methods.
 
 Constructor Best Practices
 ---------------------------
