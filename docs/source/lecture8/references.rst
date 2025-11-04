@@ -1,13 +1,13 @@
 References
 ==========
 
-**Books:**
+- **Books:**
 
-- *Effective C++* by Scott Meyers - Items on class design
-- *C++ Primer* (5th Edition) - Chapter 7: Classes
-- *Design Patterns* by Gang of Four - Foundational OOP patterns
-- ISO/IEC 14882:2017 — *C++17 Standard*.
-- B. Stroustrup, *The C++ Programming Language*, 4th Ed.
+  - *Effective C++* by Scott Meyers - Items on class design
+  - *C++ Primer* (5th Edition) - Chapter 7: Classes
+  - *Design Patterns* by Gang of Four - Foundational OOP patterns
+  - ISO/IEC 14882:2017 — *C++17 Standard*.
+  - B. Stroustrup, *The C++ Programming Language*, 4th Ed.
 
 - **UML and Design:**
 
