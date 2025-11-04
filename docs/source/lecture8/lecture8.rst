@@ -3,6 +3,11 @@ Lecture 8 - OOP (Basics)
 
 This site accompanies *ENPM702 - Lecture 8: Object-Oriented Programming (Basics)*. It organizes the lecture into concise, browsable pages with examples, short exercises, and instructor notes.
 
+
+.. note::
+   `Lecture 8 slides (v1.0) <https://drive.google.com/file/d/172TXLUdaJOby8-zINli2lTawz-E5R2L4/view?usp=drive_link>`_.
+
+
 Learning Outcomes
 -----------------
 

@@ -3,6 +3,10 @@ Lecture 6 - Functions (Advanced Topics)
 
 This site accompanies *ENPM702 - Lecture 6: Functions — Advanced Topics*. It organizes the lecture into concise, browsable pages with examples, short exercises, and instructor notes.
 
+.. note::
+   `Lecture 6 slides (v1.1) <https://drive.google.com/file/d/1HWRSnupe2Xr0lhy6JJ5hsDtywloe1td1/view?usp=sharing>`_.
+
+
 Learning Outcomes
 -----------------
 
