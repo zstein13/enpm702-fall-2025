@@ -222,3 +222,143 @@ Implement a ``Bicycle`` class in the ``transportation`` namespace with:
   - All attributes with types and visibility
   - All methods with return types and visibility
   - Mark ``const`` methods appropriately
+
+
+6. Scoped Enums (``enum class``) for Type-Safe Presets
+--------------------------------------------------------
+
+Replace fragile string fields with **strongly typed** scoped enums and provide conversion utilities.
+
+Requirements
+~~~~~~~~~~~~
+
+- In namespace ``transportation``, define:
+
+  .. code-block:: cpp
+
+     enum class Color { Red, Blue, Green, Black, White, Silver, Unknown };
+     enum class Model { Sedan, SUV, Truck, Coupe, Hatchback, Unknown };
+
+- Refactor a class ``Vehicle`` to use these enums:
+
+  .. code-block:: cpp
+
+     class Vehicle {
+     private:
+         Color color_{Color::Unknown};
+         Model model_{Model::Unknown};
+         bool  is_running_{false};
+         int   max_speed_{0};
+
+     public:
+         Vehicle(Color color, Model model, int max_speed);
+         void start_engine();
+         void stop_engine();
+         void drive();
+         [[nodiscard]] Color color() const noexcept;
+         [[nodiscard]] Model model() const noexcept;
+         [[nodiscard]] int   max_speed() const noexcept;
+     };
+
+  - Implement the constructor with a member initializer list and validate ``max_speed > 0`` (throw ``std::invalid_argument`` otherwise).
+  - All accessors must be ``[[nodiscard]]`` and ``noexcept``.
+
+- Provide readable conversions:
+
+  .. code-block:: cpp
+
+     std::string to_string(Color c);
+     std::string to_string(Model m);
+
+  - Implement via ``switch`` with **no default** and an explicit ``return`` for each enumerator.
+  - Optionally add a ``default:`` returning ``"Unknown"`` if your compiler warns for missing cases.
+
+- Provide parsing helpers that **do not throw**:
+
+  .. code-block:: cpp
+
+     std::optional<Color> parse_color(std::string_view s) noexcept;
+     std::optional<Model> parse_model(std::string_view s) noexcept;
+
+  - Accept case-insensitive inputs such as ``"red"``, ``"RED"``, or ``"Red"``.
+  - Return ``std::nullopt`` for unknown tokens.
+
+- Overload stream insertion for quick debugging:
+
+  .. code-block:: cpp
+
+     inline std::ostream& operator<<(std::ostream& os, Color c) { return os << to_string(c); }
+     inline std::ostream& operator<<(std::ostream& os, Model m) { return os << to_string(m); }
+
+Tasks
+~~~~~
+
+- **Header/Source split:**
+  
+  - Place enum declarations and conversions in ``include/transportation/types.hpp`` and their definitions in ``src/types.cpp``.
+  - Implement ``Vehicle`` in ``include/vehicle.hpp`` and ``src/vehicle.cpp``.
+
+- **Factory function:**
+
+  .. code-block:: cpp
+
+     std::optional<Vehicle> make_vehicle(std::string_view color,
+                                         std::string_view model,
+                                         int max_speed) noexcept;
+
+  - Use ``parse_color`` and ``parse_model``.
+  - Return ``std::nullopt`` if parsing fails or ``max_speed <= 0``.
+
+- **Compile-time checks:**
+
+  - Add ``static_assert(std::is_enum_v<Color> && std::is_enum_v<Model>);``
+  - Optionally fix the underlying type:
+
+    .. code-block:: cpp
+
+       enum class Color : std::uint8_t { ... };
+       enum class Model : std::uint8_t { ... };
+
+- **Demonstration program (``main.cpp``):**
+  
+  - Construct vehicles using both enums directly and via ``make_vehicle("Red", "SUV", 180)``.
+  - Print them using ``operator<<``.
+  - Show behavior for invalid input (e.g., ``"Purple"`` or ``"Spaceship"``) and handle ``std::nullopt`` using ``value_or`` or conditional checks.
+  - Verify that accidental assignments like ``color_ = "Red";`` no longer compile.
+
+- **Doxygen:**
+  
+  - Document each enumerator and all conversion functions.
+  - Mark non-throwing functions as ``noexcept`` and add ``\\warning`` on parsing about accepted spellings and case-insensitivity.
+
+Validation Criteria
+~~~~~~~~~~~~~~~~~~~~
+
+- Assigning a string literal to ``color_`` or ``model_`` **does not compile**.
+- ``to_string`` covers all enumerators; missing cases trigger warnings under ``-Wall -Wextra -Werror``.
+- ``parse_color`` and ``parse_model`` return ``std::nullopt`` for unknown tokens and never throw.
+- ``make_vehicle`` returns a disengaged ``std::optional`` for invalid input.
+- All public methods and conversion helpers are documented and pass basic unit tests.
+
+Bonus
+~~~~~
+
+- **Serialization:**
+  
+  Implement ``to_json`` / ``from_json`` adapters for ``nlohmann::json`` mapping enums to strings via your conversion helpers.
+
+- **Hashing:**
+  
+  Provide a hasher for use in unordered containers:
+
+  .. code-block:: cpp
+
+     struct ColorHash {
+         std::size_t operator()(Color c) const noexcept {
+             return static_cast<std::size_t>(c);
+         }
+     };
+
+- **Underlying type control:**
+  
+  Use ``enum class Color : std::uint8_t`` and ``enum class Model : std::uint8_t`` to reduce footprint, and explain trade-offs in your report.

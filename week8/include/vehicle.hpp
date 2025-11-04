@@ -29,7 +29,7 @@ class Vehicle {
 
   /**
    * @brief This method is used for debugging only
-   * 
+   * @todo Remove in production code
    */
   void print_status();
 };  // class Vehicle
