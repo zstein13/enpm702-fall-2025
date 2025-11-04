@@ -19,6 +19,9 @@
 #include <string_view>
 #include <vector>
 
+// default main so CMake builds
+int main(){}
+
 // //====</1>====//
 // // Function that takes const std::string&
 // void process_string(const std::string &str) {
