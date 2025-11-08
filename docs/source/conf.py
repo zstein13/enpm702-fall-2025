@@ -1,7 +1,7 @@
 import os, sys
 from datetime import date
 
-project = "ENPM702 Lecture 6 — Functions: Advanced Topics"
+project = "ENPM702 Fall 2025"
 author = "Z. Kootbally"
 copyright = f"{date.today().year}, {author}"
 release = "v1.0"
@@ -16,10 +16,11 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
     "sphinx_design",
-    "sphinxcontrib.pseudocode",
-    "sphinx_fontawesome",
+    "sphinx_proof",
+    "sphinx.ext.mathjax",
 ]
-
+extensions.append("sphinx.ext.todo")
+todo_include_todos = True
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
@@ -37,14 +38,19 @@ html_theme_options = {
     "source_branch": "main",
     # "source_directory": "docs/source/",
     "light_logo": "enpm702light.png",
-    "dark_logo": "enpm702dark.png",
+    "dark_logo": "enpm702dark.png"
 }
+
+numfig = True
+numfig_format = {
+    'pseudocode': 'Algorithm %s'  # This is what sphinxcontrib-pseudocode uses
+}
+
 html_static_path = ["_static"]
 master_doc = "index"
 
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
-
 
 # ----------------------------------------------------------------------
 # Custom CSS for Furo Theme
