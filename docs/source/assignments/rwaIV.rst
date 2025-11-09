@@ -14,7 +14,7 @@ Assignment 4
    :class: resources
 
 
-   - ⚙️ `Starter Code (rwa4_starter) <https://example.com/rwa4_starter.zip>`_
+   - ⚙️ `Starter Code (rwa4_starter) <https://github.com/zeidk/enpm702-fall-2025/tree/main/rwa4_starter>`_
    - 🔗 `MicroMouse Simulator (main) <https://github.com/mackorone/mms>`_
    - 🔗 `MicroMouse Simulator (API) <https://github.com/mackorone/mms#mouse-api>`_
    - 🔗 `MicroMouse Simulator (maze files) <https://github.com/mackorone/mms#maze-files>`_
@@ -78,10 +78,9 @@ Simulator
 Your program is required to interface with a graphical user interface simulator (`mms <https://github.com/mackorone/mms>`_). The simulator makes it easy to write and test maze-solving code without a physical robot.
 
 Installation
-~~~~~~~~~~~~~
+^^^^^^^^^^^^^
 
-.. admonition:: TODO
-   :class: mytodo
+.. todo::
 
     1. Download the `Linux precompiled version of the simulator <https://github.com/mackorone/mms/releases/download/v1.2.0/linux.zip>`_
     2. Unzip the file, which generates the `linux` folder
@@ -109,7 +108,7 @@ Installation
       </div>
 
 Maze Files
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^
 
 The simulator only provides the graphical user interface and functionalities to interact with your code. You will also need maze files. In order to use a maze in the simulator, it must be:
 
@@ -125,8 +124,7 @@ The simulator only provides the graphical user interface and functionalities to 
   - Has walls attached to every peg except the center peg
   - Is unsolvable by a wall-following robot
 
-.. admonition:: TODO
-   :class: mytodo
+.. todo::
  
     - Download maze files:
     
@@ -140,10 +138,9 @@ The simulator only provides the graphical user interface and functionalities to 
         - Select any file from `mazefiles` :math:`\rightarrow` `classic`
 
 Build and Run
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
 
-.. admonition:: TODO
-   :class: mytodo
+.. todo::
  
     - Click on the + symbol to configure the simulator :math:`\rightarrow` `Edit Mouse Algorithm` window.
     
@@ -171,7 +168,7 @@ Build and Run
         - Click `Run` (`mms` window)
 
 Simulator API Reference
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The simulator provides an Application Programming Interface (API) that enables interaction between your code and the simulator.
 
@@ -337,8 +334,7 @@ An overview of the provided API is summarized below:
     - `std::cin` reads commands from the simulator
     - `std::cerr` prints in the simulator's main window
 
-.. admonition:: Try demo code
-   :class: mytodo
+.. todo::
  
     The starter package provides a simple left-wall follower. This is just for demonstration purpose as the robot is not expected to reach the center of the maze (due to the nature of the mazes).
 
@@ -379,6 +375,7 @@ An overview of the provided API is summarized below:
             MMS::move_forward();
           }
         }
+
 ---------------------------------------------------------
 DFS Algorithm: Tree-Based Path Finding
 ---------------------------------------------------------
@@ -388,19 +385,19 @@ Maze pathfinding can be conceptualized as a tree traversal problem, where the st
 This assignment focuses on implementing a depth-first search (DFS) algorithm for maze navigation. While DFS provides a systematic approach to exploring all possible paths, it does not guarantee optimal solutions and typically does not produce the shortest route to the destination.
 
 Algorithm Behavior
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
 
 The DFS algorithm operates by starting at the root node and exploring each branch to its maximum depth before backtracking to explore alternative paths. This exhaustive exploration strategy ensures that all reachable nodes are eventually visited, though not necessarily in the most efficient order.
 
 The key characteristic of DFS is its commitment to exploring as deeply as possible along each path before considering alternatives. When the algorithm encounters a dead end or reaches a previously visited node, it backtracks to the most recent node with unexplored neighbors and continues the search from there.
 
 Goal Selection
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^
 
 The maze contains four goal cells located at the center: (7,7), (7,8), (8,7), and (8,8). Before beginning navigation, the algorithm must randomly select one of these four cells as the target destination. This random selection ensures that different runs may have different objectives, adding variability to the navigation demonstration.
 
 Search Order Protocol
-~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 
 To maintain consistency in maze traversal, the following directional priority sequence must be followed:
 
@@ -412,7 +409,7 @@ To maintain consistency in maze traversal, the following directional priority se
 This ordering ensures deterministic behavior across different implementations and makes debugging more predictable. The algorithm will always attempt to move North first when multiple directions are available.
 
 Backtracking Mechanism
-~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 When the algorithm reaches a position where no unvisited adjacent cells are available, the backtracking process begins. The algorithm retraces its steps along the current path, returning to previously visited nodes to identify unexplored branches. This systematic retreat continues until either:
 
@@ -422,7 +419,7 @@ When the algorithm reaches a position where no unvisited adjacent cells are avai
 The process ensures complete coverage of all accessible areas within the maze structure while maintaining the integrity of the search path. Backtracking is what allows DFS to explore all possible solutions systematically.
 
 Implementation Details
-~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 DFS can be implemented using stacks with the last-in-first-out (LIFO) approach. The stack maintains the current exploration path and facilitates backtracking when dead ends are encountered. During traversal, nodes are pushed onto the stack when exploring new paths and popped during backtracking when no further progress is possible.
 
@@ -431,7 +428,7 @@ A list of visited nodes is essential to prevent infinite cycles and ensure each 
 In C++, `std::stack <https://en.cppreference.com/w/cpp/container/stack>`_ provides the LIFO data structure for maintaining the exploration path, while `std::set <https://en.cppreference.com/w/cpp/container/set>`_ serves as the visited nodes collection. The algorithm begins at the start node and systematically explores all possible paths until it either reaches the goal node or exhausts all reachable nodes.
 
 Performance Considerations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The choice of ``std::set`` over ``std::vector`` for tracking visited nodes is crucial for performance. The algorithm frequently performs two operations on the visited collection: checking if a node has been visited and marking a node as visited. The following table demonstrates the significant performance difference between these data structures.
 
@@ -457,7 +454,7 @@ The choice of ``std::set`` over ``std::vector`` for tracking visited nodes is cr
 The critical operation "is this node already visited?" occurs frequently during maze traversal. With ``std::vector``, this requires searching through all previously visited nodes, creating a performance bottleneck that worsens as the maze size increases. In contrast, ``std::set`` provides logarithmic lookup time and automatically prevents duplicate entries, making it the optimal choice for this application. For large mazes containing thousands of nodes, this performance difference becomes substantial and can significantly impact the algorithm's execution time.
 
 Pseudocode
-~~~~~~~~~~~~~~
+^^^^^^^^^^^
 
 The iterative implementation of DFS uses explicit stack management to simulate the recursive call stack. The following pseudocode presents the complete approach:
 
@@ -520,596 +517,639 @@ The iterative implementation of DFS uses explicit stack management to simulate t
    
    3. **return** false (all reachable nodes explored, goal not found)
 
-.. note::
-   
-   At the end of this algorithm, the stack :math:`s` contains the path from start to goal. You need to invert this stack to get that path.
 
 
-.. only:: html
+Demonstration
+"""""""""""""""
 
-        .. raw:: html
+This section presents a visual example using a simple 4x4 maze. The depth-first search (DFS) algorithm begins at position (0, 0) and aims to reach the goal at position (2, 2). The exploration priority is defined as follows: (1) North, (2) East, (3) South, and (4) West. The algorithm has prior knowledge only of the maze's perimeter walls.
 
-            <div style="display:flex; justify-content:left; align-items:left; gap:1rem;">
-                <img src="../_static/rwa4/i1.png"
-                    alt="Demo"
-                    class="only-light"
-                    style="width:30%; border-radius:8px;">
-            </div>
-
-****
+Iteration 1
+~~~~~~~~~~~~~~
 
 .. only:: html
 
         .. raw:: html
 
-            <div style="display:flex; justify-content:left; align-items:left; gap:1rem;">
-                <img src="../_static/rwa4/i2.png"
-                    alt="Demo"
-                    class="only-light"
-                    style="width:30%; border-radius:8px;">
-            </div>
-
-****
-
-.. only:: html
-
-        .. raw:: html
-
-            <div style="display:flex; justify-content:left; align-items:left; gap:1rem;">
-                <img src="../_static/rwa4/i3.png"
+            <div style="display:flex; justify-content:center; align-items:center; gap:1rem;">
+                <img src="../_static/rwa4/i1_light.png"
                     alt="Demo"
                     class="only-light"
                     style="width:40%; border-radius:8px;">
+                <img src="../_static/rwa4/i1_dark.png"
+                    alt="Demo"
+                    class="only-dark"
+                    style="width:40%; border-radius:8px;">
             </div>
 
-****
+
+.. admonition:: Demo
+   :class: leftline
+
+   - :math:`s=[(0,0)]`
+   - :math:`n=(0,0)`
+   - :math:`v=[(0,0)]`
+
+
+Iteration 2
+~~~~~~~~~~~~~~
 
 .. only:: html
 
         .. raw:: html
 
-            <div style="display:flex; justify-content:left; align-items:left; gap:1rem;">
-                <img src="../_static/rwa4/i4.png"
+            <div style="display:flex; justify-content:center; align-items:center; gap:1rem;">
+                <img src="../_static/rwa4/i2_light.png"
                     alt="Demo"
                     class="only-light"
-                    style="width:50%; border-radius:8px;">
+                    style="width:40%; border-radius:8px;">
+                <img src="../_static/rwa4/i2_dark.png"
+                    alt="Demo"
+                    class="only-dark"
+                    style="width:40%; border-radius:8px;">
             </div>
 
-****
+
+.. admonition:: Demo
+   :class: leftline
+
+   - :math:`s=[(0,1),(0,0)]`
+   - :math:`n=(0,1)`
+   - :math:`v=[(0,0),(0,1)]`
+
+Iteration 4
+~~~~~~~~~~~~~~
 
 .. only:: html
 
         .. raw:: html
 
-            <div style="display:flex; justify-content:left; align-items:left; gap:1rem;">
-                <img src="../_static/rwa4/i5.png"
+            <div style="display:flex; justify-content:center; align-items:center; gap:1rem;">
+                <img src="../_static/rwa4/i4_light.png"
                     alt="Demo"
                     class="only-light"
-                    style="width:50%; border-radius:8px;">
+                    style="width:40%; border-radius:8px;">
+                <img src="../_static/rwa4/i4_dark.png"
+                    alt="Demo"
+                    class="only-dark"
+                    style="width:40%; border-radius:8px;">
             </div>
 
-****
+.. admonition:: Demo
+   :class: leftline
+
+   - :math:`s=[(0,3),(0,2),(0,1),(0,0)]`
+   - :math:`n=(0,3)`
+   - :math:`v=[(0,0),(0,1),(0,2),(0,3)]`
+
+Iteration 5
+~~~~~~~~~~~~~~
 
 .. only:: html
 
         .. raw:: html
 
-            <div style="display:flex; justify-content:left; align-items:left; gap:1rem;">
-                <img src="../_static/rwa4/i6.png"
+            <div style="display:flex; justify-content:center; align-items:center; gap:1rem;">
+                <img src="../_static/rwa4/i5_light.png"
                     alt="Demo"
                     class="only-light"
-                    style="width:70%; border-radius:8px;">
+                    style="width:40%; border-radius:8px;">
+                <img src="../_static/rwa4/i5_dark.png"
+                    alt="Demo"
+                    class="only-dark"
+                    style="width:40%; border-radius:8px;">
             </div>
 
+.. admonition:: Demo
+   :class: leftline
+
+   - :math:`s=[(1,3),(0,3),(0,2),(0,1),(0,0)]`
+   - :math:`n=(1,3)`
+   - :math:`v=[(0,0),(0,1),(0,2),(0,3),(1,3)]`
+
+Iteration 13
+~~~~~~~~~~~~~~
+
+.. only:: html
+
+        .. raw:: html
+
+            <div style="display:flex; justify-content:center; align-items:center; gap:1rem;">
+                <img src="../_static/rwa4/i13_light.png"
+                    alt="Demo"
+                    class="only-light"
+                    style="width:40%; border-radius:8px;">
+                <img src="../_static/rwa4/i13_dark.png"
+                    alt="Demo"
+                    class="only-dark"
+                    style="width:40%; border-radius:8px;">
+            </div>
+
+.. admonition:: Demo
+   :class: leftline
+
+   - :math:`s=[(2,2),...,(3,3),(2,3),(1,3),(0,3),(0,2),(0,1),(0,0)]`
+   - :math:`n=(2,2)`
+   - :math:`v=[(0,0),(0,1),(0,2),(0,3),(1,3),(2,3),(3,3),...,(2,1)]`
 
 Path Following
-~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^
 
-When any of these sensor functions return ``true``, indicating the presence of a wall, you must perform two critical actions:
-
-1. **Update your internal maze representation**: Modify your maze data structure to reflect the newly discovered wall information.
-2. **Synchronize the simulator**: Call ``set_wall(int x, int y, char direction)`` to ensure the simulator's visual representation matches your internal maze state.
-
-This dual-update approach maintains consistency between your algorithm's understanding of the maze and the simulator's display, enabling accurate pathfinding and visualization throughout the robot's navigation process.
-
-When the robot encounters unexpected walls during navigation, it must recompute the path from its current position using the DFS algorithm with the updated maze information.
+.. note::
+   
+   At the conclusion of the algorithm, the stack :math:`s` holds the sequence of nodes from the goal back to the start. To obtain the correct path from start to goal, this stack must be reversed.
 
 
-MicroMouseRobot Class (25 points)
-----------------------------------
+.. prf:algorithm:: Path-Follow with Conditional Replan
+   :label: follow-conditional-replan
 
-Core Robot Implementation (20 points)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   **Inputs:**
+   
+   - :math:`s` — stack representing the current path from start to goal
+   - `maze_` — internal maze representation
+   - `API` — simulator interface
 
-Create the main ``MicroMouseRobot`` class within the ``micro_mouse`` namespace:
+   **Output:** Updated path :math:`s` and synchronized maze state
 
-**Required Public Interface:**
+   1. **for each** cell :math:`c \in s` **do**
+   
+      a. Move robot to :math:`c`
+      
+      b. Sense walls :math:`D = \{\text{front}, \text{left}, \text{right}\}` :code:`// Use` :code:`has_wall_front()`, :code:`has_wall_right()`, :code:`has_wall_left()`
 
-- ``MicroMouseRobot(const std::string& robot_id, std::shared_ptr<Maze> maze, std::shared_ptr<Algorithm> algorithm)`` — Constructor with robot identification and aggregated shared resources
-- ``void navigate_maze()`` — Main navigation control loop using aggregated components
-- ``bool scan_environment()`` — Environmental scanning based on current mode
+      
+      c. **for each** direction :math:`d \in D` **where a wall is detected do**
+         
+         i. Update `maze_(c, d)` to mark a wall
+         
+         ii. Use the `API` to synchronize visualization :code:`// Use` :code:`set_wall(int x, int y, char direction)`
+         
+      d. Let :math:`E_{\text{new}}` be the set of edges blocked by any newly detected wall
+      
+      e. Let :math:`P_{\text{rem}}` be the set of edges on the remaining path in :math:`s` (from :math:`c` to goal)
+      
+      f. **if** :math:`E_{\text{new}} \cap P_{\text{rem}} \neq \varnothing` **then** :code:`// if a newly detected wall blocks part of the path we intended to follow`
+         
+         i. :math:`s \gets \text{DFS}(\text{current}=c, \text{goal}, maze\_)` :code:`// recompute path`
+         
+         ii. **if** :math:`s = \varnothing` **then** return **false**
+   
+   2. **return** **true**
 
-**Configuration Methods:**
+Demonstration
+"""""""""""""""
 
-- ``void set_scanning_intensity(ScanningLevel level)`` — Adjust sensor usage
 
-Robot Behavior Modes (5 points)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. only:: html
 
-Implement enumerated types and corresponding behaviors for different operational modes:
+        .. raw:: html
 
-**Scanning Levels (enum class ScanningLevel):**
+            <div style="display:flex; justify-content:center; align-items:center; gap:1rem;">
+                <img src="../_static/rwa4/iterations.png"
+                    alt="Demo"
+                    class="only-light"
+                    style="width:100%; border-radius:8px;">
+                <img src="../_static/rwa4/iterations.png"
+                    alt="Demo"
+                    class="only-dark"
+                    style="width:100%; border-radius:8px;">
+            </div>
 
-1. **MINIMAL**: Forward-only wall detection using ``has_wall_front()``
-2. **STANDARD**: Three-direction scanning (``has_wall_front()``, ``has_wall_left()``, ``has_wall_right()``)
 
-The ``scan_environment()`` method implements configuration-driven sensor usage that demonstrates behavioral differences between robot modes. MINIMAL mode performs forward-only scanning for reactive navigation, while STANDARD mode scans all three directions (front, left, right) for proactive environmental mapping.
+----------------
+Design Phase
+----------------
 
-Both modes update the internal maze representation and simulator visualization through API wrapper methods. The algorithm uses visual markers to distinguish scanning patterns and returns whether new wall information was discovered, enabling the navigation system to trigger path recomputation when necessary.
+Before writing any code, you must design the architecture of your MicroMouse robot navigation system. The **Design Phase** focuses on transforming functional requirements into an object-oriented structure that clearly demonstrates **abstraction**, **inheritance**, **composition**, and **aggregation**.
 
-The pseudocode for ``scan_environment()`` is provided below:
+This phase ensures that your implementation is modular, extensible, and aligned with sound software engineering practices.
 
-.. code-block:: text
-   :linenos:
+Objectives
+^^^^^^^^^^^
 
-   Function scan_environment() -> bool:
-       Data:
-           current_scanning_level — enum ScanningLevel (MINIMAL or STANDARD)
-           current_position — robot's current x,y coordinates
-           current_direction — robot's facing direction (N,S,E,W)
-           m_maze — shared maze object with API wrapper methods
-       Output:
-           true if any walls detected, otherwise false
-       
-       walls_detected = false  // track if any walls found during scan
-       
-       if current_scanning_level is MINIMAL:  // minimal scanning mode
-           // Only scan forward direction
-           if m_maze.has_wall_front():
-               m_maze.update_wall(current_position.x, current_position.y, current_direction, true)
-               m_maze.set_wall(current_position.x, current_position.y, direction_to_char(current_direction))
-               walls_detected = true
-           m_maze.set_color(current_position.x, current_position.y, 'R')  // mark as minimal scan
-       else:  // standard scanning mode
-           // Scan all three accessible directions: front, left, right
-           if m_maze.has_wall_front():
-               m_maze.update_wall(current_position.x, current_position.y, current_direction, true)
-               m_maze.set_wall(current_position.x, current_position.y, direction_to_char(current_direction))
-               walls_detected = true
-           
-           left_direction = get_left_direction(current_direction)
-           if m_maze.has_wall_left():
-               m_maze.update_wall(current_position.x, current_position.y, left_direction, true)
-               m_maze.set_wall(current_position.x, current_position.y, direction_to_char(left_direction))
-               walls_detected = true
-           
-           right_direction = get_right_direction(current_direction)
-           if m_maze.has_wall_right():
-               m_maze.update_wall(current_position.x, current_position.y, right_direction, true)
-               m_maze.set_wall(current_position.x, current_position.y, direction_to_char(right_direction))
-               walls_detected = true
-           
-           m_maze.set_color(current_position.x, current_position.y, 'B')  // mark as standard scan
-       
-       return walls_detected  // return whether any walls were discovered
+- Model the system architecture using a **UML Class Diagram**.
+- Depict runtime interactions using a **UML Sequence Diagram**.
+- Demonstrate **inheritance**, **composition**, and **aggregation** explicitly in your design.
+- Implement **polymorphism** through an abstract base class :code:`Algorithm`.
 
-Aggregation - Shared Components (25 points)
-----------------------------------------------
+Class Diagram
+^^^^^^^^^^^^^^^^^^^^^^
 
-Implement components that are shared and exist independently using ``std::shared_ptr``:
+Create a UML **class diagram** that represents the key structural components of your system.
 
-Maze Class (15 points)
-~~~~~~~~~~~~~~~~~~~~~~~
+**Required Elements:**
 
-The ``micro_mouse::Maze`` class serves as the central interface to the MazeControlAPI:
+1. **Abstract Base Class**
+   
+   - Define an abstract class :code:`Algorithm` that declares common behaviors for maze-solving algorithms.
+   - It must include at least one pure virtual method (e.g., :code:`virtual void solve() = 0;`).
+   - Derived classes should implement different algorithms (e.g., :code:`DFSAlgorithm`, :code:`BFSAlgorithm`, or :code:`RandomWalkAlgorithm`).
 
-- 16×16 grid representation with individual cell objects
-- Wall information storage and updates for both boundary and internal walls
-- Goal identification with center 4 cells: (7,7), (7,8), (8,7), (8,8)
-- Random goal selection from the four center cells
-- Cell state management including visited status, colors, and text annotations
-- Position tracking with x, y coordinates and current direction (N, S, E, W)
-- Movement history recording for backtracking capabilities
-- Wall detection integration using API sensor methods
-- **All API interaction through maze class methods**
+2. **Inheritance**
+   
+   - Use inheritance to extend the base class :code:`Algorithm`.
+   - Ensure each derived algorithm shares a consistent interface but provides its own behavior.
+   - Example: both :code:`DFSAlgorithm` overrides :code:`solve()`.
 
-Algorithm Class (10 points)
-----------------------------
+3. **Composition**
+   
+   - Composition represents a **has-a** relationship where the *contained object cannot exist independently* of the containing class.
+   - Example:
 
-The ``micro_mouse::Algorithm`` class requirements:
+     - The :code:`Robot` **has a** :code:`Maze` object that represents the robot's internal understanding of the maze.
+     - If the :code:`Robot` object is destroyed, its :code:`Maze` should also be destroyed.
+     
+   - UML Notation: **filled diamond (◆)** next to the owning class.
+  
 
-- DFS pathfinding implementation with random goal selection
-- Path computation and validation with support for dynamic re-planning
-- Wall detection integration based on robot scanning configuration
-- Integration with maze class for seamless robot navigation coordination
+4. **Aggregation**
+   
+   - Aggregation represents a **“uses” or “has access to”** relationship where the associated object can exist independently.
+   - Example:
 
-Robot Configuration and Behavior Demonstration (10 points)
-------------------------------------------------------------
+     - The :code:`Robot` **uses** an :code:`Algorithm` object to navigate.
+     - The :code:`Algorithm` may be shared between multiple robots or swapped at runtime.
 
-Dynamic Behavior Configuration (5 points)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   - UML Notation: **hollow diamond (◇)** next to the aggregate class.
 
-Implement the ability to reconfigure robot behavior during runtime with clear behavioral changes:
 
-**Configuration Impact Examples:**
+Sequence Diagram
+^^^^^^^^^^^^^^^^^^^^^^
+
+Create a **sequence diagram** showing how objects interact during maze navigation.  
+The diagram should illustrate **dynamic behavior** — the sequence of messages exchanged between the main system components.
+
+**Required Scenario:**
+
+- The :code:`Robot` initiates maze exploration.
+- The :code:`Algorithm` computes the next move based on sensory input.
+- The :code:`Maze` updates its internal map through composition.
+- The :code:`MazeControlAPI` (simulator interface) updates the visualization.
+
+**Expected Message Flow:**
+
+1. :code:`Robot` calls :code:`Algorithm.solve()`.
+2. :code:`Algorithm` requests maze information from :code:`Maze`.
+3. :code:`Algorithm` determines the next move and instructs the :code:`Robot`.
+4. :code:`Robot` calls :code:`MazeControlAPI::move_forward()` or other relevant API functions.
+5. The :code:`Maze` updates wall information via :code:`set_wall(x, y, d)`.
+
+Your sequence diagram must clearly depict method calls and object lifetimes, highlighting polymorphism when the :code:`Algorithm` instance refers to a derived class.
+
+Submission Requirements
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Include **two UML diagrams**:
+  
+  - :code:`design_class_diagram.png` — Class Diagram  
+  - :code:`design_sequence_diagram.png` — Sequence Diagram
+
+.. note::
+   
+   Diagrams must follow standard UML notation and be legible.
+
+Evaluation Criteria
+^^^^^^^^^^^^^^^^^^^^^^
+
+- Correct use of UML symbols and relationships.
+- Accurate and meaningful application of inheritance, composition, and aggregation.
+- Clear demonstration of polymorphism through the :code:`Algorithm` abstraction.
+- Logical, modular, and well-organized class structure.
+- Completeness and clarity of both diagrams.
+
+--------------------------------
+Implementation Phase
+--------------------------------
+
+The **Implementation Phase** focuses on translating your design into a fully functional C++ program. In this stage, you will implement all classes defined in your class diagram and ensure that the system behavior aligns with your sequence diagram. Your implementation must demonstrate a strong understanding of object-oriented programming (OOP) principles, including **encapsulation**, **inheritance**, **composition**, **aggregation**, and **polymorphism**.
+
+Objectives
+^^^^^^^^^^^^
+
+- Implement all classes, relationships, and behaviors outlined in the design phase.
+- Ensure clean modular separation between components.
+- Apply abstraction through an abstract class that defines the algorithm interface.
+- Demonstrate inheritance and polymorphism through derived algorithm classes.
+- Properly implement composition and aggregation relationships as modeled.
+- Maintain encapsulation and const-correctness throughout your code.
+
+Implementation Overview
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Your project should be organized according to the responsibilities of each class. Each component must serve a distinct purpose and align with your UML diagrams:
+
+- The **Algorithm** hierarchy defines the abstract interface for all maze-solving strategies.  
+- The **Robot** serves as the main controller that interacts with the maze and delegates navigation to a selected algorithm.  
+- The **Maze** class acts as an internal model of the environment, encapsulating all communication with the simulator.  
+- The **MazeControlAPI** (provided) handles simulator-level interactions and must only be accessed through the Maze wrapper.  
+
+This structure enforces modularity and prevents direct dependencies on simulator internals.
+
+Abstract Class and Polymorphism
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Define an abstract class representing a general maze-solving algorithm. This class must specify the interface shared by all algorithm implementations. Derived classes should override the relevant methods to implement their specific navigation logic.
+
+Polymorphism must be demonstrated by allowing the robot to hold a reference or pointer to the abstract base class and to invoke derived algorithm implementations at runtime. This enables flexible switching between algorithms without altering the robot’s logic.
+
+Composition
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Composition represents a strong ownership relationship. In your design:
+
+- The **Robot** must *own* its **Maze** instance.  
+- The maze should not exist independently of the robot.  
+- When the robot is destroyed, its maze is also destroyed.  
+
+This relationship emphasizes that the maze is a core internal component of the robot’s state. All maze-related functionality, including sensing, wall updates, and visualization synchronization, must occur through this composition relationship.
+
+Aggregation
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Aggregation represents a weaker “uses-a” relationship. In your design:
+
+- The **Robot** uses an **Algorithm** to perform navigation but does not own it.  
+- The algorithm can be shared, replaced, or modified independently.  
+
+This relationship allows the robot to switch between algorithms (e.g., DFS, BFS) without altering its internal composition. Aggregation must be clearly demonstrated both in your UML and in your implementation structure.
+
+Encapsulation and Abstraction
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+All data members must remain private or protected, accessible only through well-defined public methods.  
+Avoid exposing raw internal states. Instead, provide accessors and mutators when necessary.  
 
 .. code-block:: cpp
-   :linenos:
+  :linenos:
 
-   // Minimal Scanning Configuration - Fast and basic
-   robot->set_scanning_intensity(ScanningLevel::MINIMAL);
-   // Results: Forward-only scanning, faster navigation, minimal wall detection
 
-   // Standard Scanning Configuration - Comprehensive and thorough
-   robot->set_scanning_intensity(ScanningLevel::STANDARD);
-   // Results: Three-direction scanning, thorough wall detection, complete mapping
+    class Maze {
+    private:
+        int width_;
+        int height_;
+    public:
+        [[nodiscard]] int get_width() const noexcept { return width_; }
+    };
 
-Behavioral Demonstrations (5 points)
--------------------------------------
+Abstraction should be maintained by hiding low-level simulator communication inside your **Maze** class, ensuring other classes remain simulator-agnostic.
 
-Show measurable differences between configurations:
-
-**Required Differences:**
-
-- **Sensor Usage**: Varying wall detection patterns and API call frequencies
-- **Visual Marking**: Different cell coloring and text annotation strategies
-- **Exploration Approach**: Different scanning patterns and wall discovery rates
-- **Navigation Efficiency**: Measurable differences in scanning frequency, exploration completeness, and path optimization
-
-DFS Algorithm Implementation (20 points)
-------------------------------------------
-
-Core DFS Functionality (15 points)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Implement the complete DFS algorithm with the following requirements:
-
-- Correct DFS implementation following specified search order protocol (North, East, South, West)
-- Proper backtracking mechanism using stack data structure
-- Effective path computation and following with dynamic re-planning capabilities
-- Integration with wall discovery and maze representation updates
-
-Goal Selection and Navigation (5 points)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Implement random goal selection and navigation features:
-
-- Random goal selection from the four center cells at the start of each run
-- Proper integration with maze and robot systems for seamless navigation
-- Dynamic path recomputation when encountering unexpected walls during navigation
-
----------------------------------------------------------
-Maze Reset Detection
----------------------------------------------------------
-
-The simulator provides a reset button in the GUI that allows users to restart the maze. Your program must detect when this reset occurs and respond appropriately. The API provides two methods for reset detection:
-
-- ``was_reset()`` — Returns ``true`` if the simulator was reset since the last check
-- ``ack_reset()`` — Acknowledges the reset and clears the reset flag
-
-Your main program must continuously monitor for resets and restart the navigation process when detected. This allows for multiple demonstration runs without restarting the entire program.
-
----------------------------------------------------------
-Main Program Flow
----------------------------------------------------------
-
-Your main program should demonstrate different robot configurations solving the same maze, with automatic reset detection:
+Direct calls to the **MazeControlAPI** are strictly prohibited outside the Maze class.  
+All simulator commands must go through the Maze wrapper methods to preserve abstraction and ensure that your logic remains decoupled from simulator implementation details.
 
 .. code-block:: cpp
-   :linenos:
+  :linenos:
 
-   int main() {
-       // Create shared resources (aggregation)
-       auto maze = std::make_shared<micro_mouse::Maze>();
-       auto algorithm = std::make_shared<micro_mouse::Algorithm>();
-       
-       // Create robot with shared resources (demonstrates aggregation)
-       auto robot = std::make_unique<micro_mouse::MicroMouseRobot>("MM-001", maze, algorithm);
-       
-       bool first_run = true;
-       
-       while (true) {
-           // Check for simulator reset
-           if (maze->was_reset()) {
-               maze->ack_reset();
-               maze->log("=== Simulator Reset Detected ===");
-               
-               // Clear visualization and prepare for new run
-               maze->clear_all_color();
-               maze->clear_all_text();
-               first_run = true;
-           }
-           
-           if (first_run) {
-               // === FIRST RUN: MINIMAL SCANNING MODE ===
-               maze->log("=== Starting Minimal Scanning Mode ===");
-               robot->set_scanning_intensity(ScanningLevel::MINIMAL);
-               
-               robot->navigate_maze();  // Robot uses its aggregated components
-               
-               // Clear visualization for next run (preserve discovered walls)
-               maze->clear_all_color();
-               maze->clear_all_text();
-               first_run = false;
-           } else {
-               // === SECOND RUN: STANDARD SCANNING MODE ===
-               maze->log("=== Starting Standard Scanning Mode ===");
-               robot->set_scanning_intensity(ScanningLevel::STANDARD);
-               
-               robot->navigate_maze();  // Robot uses its aggregated components
-               
-               maze->log("=== Both runs completed. Click reset for new demonstration ===");
-               
-               // Wait for reset to start over
-               while (!maze->was_reset()) {
-                   // Small delay to prevent busy waiting
-                   std::this_thread::sleep_for(std::chrono::milliseconds(100));
-               }
-           }
-       }
-       
-       return 0;
-   }
+  // maze.hpp
+  class Maze {
+  public:
+      void set_wall(int x, int y, char direction) {
+          micro_mouse::MazeControlAPI::set_wall(x, y, direction);
+      }
 
----------------------------------------------------------
-Documentation Requirements
----------------------------------------------------------
+      bool has_wall_left() const {
+          return micro_mouse::MazeControlAPI::has_wall_left();
+      }
+  };
 
-Design Document (3-5 pages)
-============================
+Implementation Notes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Your design document must include:
+- Follow your class and sequence diagrams faithfully.  
+- Keep functions focused on single responsibilities.  
+- Use modern C++ best practices, including uniform initialization, RAII, and const-correctness.  
+- Do not use global variables or hard-coded constants.  
+- Maintain consistent naming conventions as used in the starter package.  
+- Verify successful compilation using the required build flags (:code:`-Wall -Wextra -Werror -pedantic-errors`).  
+- Use appropriate logging via :code:`std::cerr` for simulator output.
 
-- Explanation of robot configurations and their behavioral differences
-- Clear distinction between shared resources and robot-specific functionality
-- How the same maze and algorithm instances are reused across different robot configurations
-- Performance comparison between different scanning modes with quantitative analysis
-- Justification for all design decisions and OOP principle applications
-- Discussion of how configuration-based design achieves behavioral diversity
-- Analysis of system integration and component interactions
-- Explanation of random goal selection mechanism and its impact on navigation
-- Description of reset detection implementation and program flow control
-
-UML Class Diagram
-=================
-
-- Show all classes with complete method signatures and key attributes
-- Indicate aggregation relationships (hollow diamond ◇) between Robot and shared resources
-- Show all enumerated types and their relationships to the robot class
-- Include multiplicity indicators and relationship labels
-- Demonstrate clear namespace organization (``micro_mouse`` namespace only)
-- Show dependency relationships between systems
-- Illustrate API wrapper pattern in maze class
-
-Code Documentation
-==================
-
-All code must be documented using Doxygen format with comprehensive coverage:
-
-- Comprehensive class descriptions with purpose and responsibilities
-- Parameter descriptions for all public methods with type information
-- Return value explanations with possible value ranges
-- Usage examples for complex methods and configuration options
-- Pre-condition and post-condition documentation for critical methods
-- Configuration option explanations with behavioral impact descriptions
-- Document all public members including constructors, methods, and enumerations
-
----------------------------------------------------------
 Deliverables
----------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-- **Source Code**: Complete implementation following required structure with all specified classes
-- **Documentation**: Design document (3-5 pages), UML diagram, comprehensive Doxygen comments
-- **README**: Build instructions, dependencies, group member contributions, usage instructions
-- **Demo Video**: 3-4 minutes showing robot in both configurations solving the maze sequentially with simulator running
+- Fully implemented source files corresponding to your class and sequence diagrams.  
+- A working executable that interfaces correctly with the simulator.  
+- Evidence of composition, aggregation, inheritance, and polymorphism in your implementation.  
+- Updated documentation (comments and brief report) describing how your design was realized in code.
 
----------------------------------------------------------
-Grading Rubric (100 pts)
----------------------------------------------------------
+Evaluation Criteria
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Correct and consistent translation of UML design into code.  
+- Proper use of abstraction, inheritance, and polymorphism.  
+- Correct implementation of composition and aggregation.  
+- Adherence to encapsulation principles and avoidance of direct API access.  
+- Code organization, readability, and compliance with modern C++ practices.  
+- Successful integration and functional operation within the simulator environment.
 
 .. warning::
    
-   Ensure you follow the C++ `Core Guidelines <https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines>`_ and demonstrate all OOP principles effectively. Use ``snake_case`` throughout your implementation and keep everything in the ``micro_mouse`` namespace.
+   Your code will be tested on different 16x16 mazes.
 
-Code Implementation (80 points)
-================================
+---------------------------------------------------------
+Submission
+---------------------------------------------------------
 
-MicroMouseRobot Class (25 pts)
-------------------------------
+Before submitting, carefully review your project to ensure all requirements have been met and that your implementation runs correctly within the simulator environment.  
+Each group must submit **one zipped file** named according to the format below:
 
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
+.. admonition:: File Naming Convention
+   :class: leftline
 
-   * - **Points**
-     - **Criteria**
-   * - 22-25 pts
-     - Well-designed robot class with clear public interface; proper scanning configuration methods; correct ``snake_case`` naming; proper encapsulation; excellent integration with shared components
-   * - 15-21 pts
-     - Basic robot functionality with some configuration options; minor design issues; some behavioral differences visible; adequate integration
-   * - 5-14 pts
-     - Poor robot design; minimal configuration capabilities; incorrect method implementations; poor integration
-   * - 0-4 pts
-     - Missing robot class or completely non-functional implementation
+   **Format:** :code:`groupX_rwa4.zip`  
+   **Example:** :code:`group3_rwa4.zip`  
 
-Aggregation - Shared Components (25 pts)
------------------------------------------
+   Use your assigned group number. Submissions that do not follow this naming convention may receive a penalty.
+
+Submission Checklist
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Use the checklist below to verify that your submission is complete and properly organized:
 
 .. list-table::
-   :header-rows: 1
-   :widths: 20 80
+   :widths: 10 90
+   :class: compact-table
 
-   * - **Points**
-     - **Criteria**
-   * - 22-25 pts
-     - Proper maze and algorithm classes using ``shared_ptr``; correct sharing between robot runs; proper lifetime management; clear interfaces; comprehensive API wrapper implementation in maze class; all functionality working correctly
-   * - 15-21 pts
-     - Basic shared components with minor issues; some aggregation concepts demonstrated; most API wrapper functionality present; adequate shared resource management
-   * - 5-14 pts
-     - Poor aggregation implementation; memory management issues; unclear sharing; missing significant API wrapper functionality
-   * - 0-4 pts
-     - Incorrect sharing; memory leaks; missing aggregation design; no API wrapper implementation
+   * - [ ]
+     - The file is named correctly as :code:`groupX_rwa4.zip`
+   * - [ ]
+     - All required source files and headers are included
+   * - [ ]
+     - UML class and sequence diagrams are provided in image format (PNG or SVG) and placed in the `diagram` folder in your project folder
+   * - [ ]
+     - Implementation follows the design diagrams faithfully
+   * - [ ]
+     - The project builds cleanly with :code:`-Wall -Wextra -pedantic-errors`
+   * - [ ]
+     - The program runs successfully within the simulator without modification
+   * - [ ]
+     - All simulator interactions occur through the Maze wrapper (no direct API calls)
+   * - [ ]
+     - Doxygen documentation is complete and generated successfully
+   * - [ ]
+     - Group members’ names and group number are included in a README file
+   * - [ ]
+     - The zipped file contains only the relevant project files (no build folders or binaries)
 
-Robot Configuration and Behavior (10 pts)
-------------------------------------------
+Pre-Submission Review
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
+.. important::
+   Before submitting, all group members must review the **“Summary of Past Assignment Issues”** document posted on **Canvas**.  
+   This document highlights common mistakes observed in previous assignments (such as missing files, incorrect naming conventions, or direct API usage).  
+   Groups are expected to verify that these issues have been avoided in their current submission.
 
-   * - **Points**
-     - **Criteria**
-   * - 8-10 pts
-     - Clear and measurable behavioral differences between scanning configurations; proper mode switching; effective demonstration of configuration impact; quantifiable performance differences
-   * - 5-7 pts
-     - Some behavioral differences visible; basic configuration options working; minor issues with mode switching
-   * - 1-4 pts
-     - Minimal behavioral differences; poor configuration implementation; limited mode functionality
-   * - 0 pts
-     - No meaningful behavioral differences; configuration system non-functional
+Submission Method
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-DFS Algorithm Implementation (20 pts)
--------------------------------------
+- Submit your :code:`groupX_rwa4.zip` file through **Canvas** under the *Assignment 4* submission link.  
+- Late submissions will follow the course's late policy.  
+- Only one group member needs to upload the file, but all members must be listed in the README.
 
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
 
-   * - **Points**
-     - **Criteria**
-   * - 17-20 pts
-     - Correct DFS implementation following specified search order protocol; proper backtracking mechanism; effective path computation and following; dynamic wall discovery and re-planning; random goal selection working correctly; proper integration with maze and robot systems
-   * - 10-16 pts
-     - Basic DFS implementation with minor issues; most pathfinding functionality working; some integration problems; goal selection implemented with minor issues
-   * - 3-9 pts
-     - Poor DFS implementation; significant algorithmic errors; limited pathfinding capability; random goal selection missing or incorrect
-   * - 0-2 pts
-     - Missing or completely incorrect DFS implementation; non-functional pathfinding; no goal selection
+---------------------------------------------------------
+Grading Rubric
+---------------------------------------------------------
 
-Documentation and Design (20 points)
-====================================
 
-Design Document (8 pts)
------------------------
+**Total:** 50 points (plus up to **5 bonus points** for BFS)
+
+UML Diagrams: Class & Sequence (10 pts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
-   :header-rows: 1
-   :widths: 20 80
-
-   * - **Points**
-     - **Criteria**
-   * - 7-8 pts
-     - Comprehensive design explanation; clear justification of OOP principles; thorough analysis of behavioral differences; discussion of random goal selection; well-written and professional
-   * - 4-6 pts
-     - Basic design documentation covering most requirements; minor gaps in analysis; adequate writing quality
-   * - 1-3 pts
-     - Incomplete documentation; superficial analysis; missing key elements; poor writing quality
-   * - 0 pts
-     - Missing or completely inadequate design documentation
-
-UML Class Diagram (7 pts)
---------------------------
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
-
-   * - **Points**
-     - **Criteria**
-   * - 6-7 pts
-     - Complete and accurate UML diagram; proper notation for aggregation; all classes and relationships shown; API wrapper pattern illustrated; professional presentation; correct use of UML symbols
-   * - 3-5 pts
-     - Basic UML with minor errors or missing elements; most relationships correct; adequate presentation
-   * - 1-2 pts
-     - Incomplete UML diagram; significant errors in notation; poor presentation
-   * - 0 pts
-     - Missing or completely incorrect UML diagram
-
-Code Documentation (5 pts)
----------------------------
-
-.. list-table:: 
    :widths: 20 80
    :stub-columns: 1
    :class: compact-table
 
    * - **Points**
      - **Criteria**
-   * - 4-5 pts
-     - Complete Doxygen documentation; clear and helpful comments; well-documented interfaces; usage examples provided
-   * - 2-3 pts
-     - Basic documentation with some missing elements; adequate comment coverage
-   * - 1 pt
-     - Minimal documentation; poor comment quality
+   * - 9–10 pts
+     - Class and sequence diagrams are complete, consistent, and readable; correctly model **inheritance**, **composition**, **aggregation**, and **polymorphism** via an abstract :code:`Algorithm`; correct UML notation (roles, multiplicities, access, lifelines, messages); sequence diagram matches a realistic navigation scenario.
+   * - 6–8 pts
+     - Diagrams mostly correct with minor UML or consistency issues; relationships are present but one is under-specified (e.g., missing multiplicity or abstract marker).
+   * - 3–5 pts
+     - Partial diagrams; some relationships incorrect or missing; sequence flow unclear; noticeable UML notation errors.
+   * - 0–2 pts
+     - Diagrams missing or unusable; relationships not conveyed.
+
+Implementation Faithfulness to Design (8 pts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+   :widths: 20 80
+   :stub-columns: 1
+   :class: compact-table
+
+   * - **Points**
+     - **Criteria**
+   * - 7–8 pts
+     - Implementation closely follows the submitted diagrams (classes, responsibilities, relationships, method roles) with only minor, well-justified deviations.
+   * - 4–6 pts
+     - Mostly consistent; some classes or relationships diverge from the diagrams without clear rationale.
+   * - 1–3 pts
+     - Significant divergence from design; several elements reinterpreted or omitted.
    * - 0 pts
-     - Missing or completely inadequate code documentation
+     - Implementation bears little relation to the diagrams.
 
-Code Quality (Deductions up to -15 pts)
-========================================
+Algorithm Correctness & Behavior (DFS + Path Following) (10 pts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Memory leaks or resource management issues (−5 pts)
-- Compilation warnings (−3 pts)
-- Poor code organization and structure (−5 pts)
-- Not using ``snake_case`` naming convention (−3 pts)
-- Missing error handling for critical operations (−3 pts)
-- Not using ``micro_mouse`` namespace consistently (−3 pts)
-- Poor separation of concerns between systems (−4 pts)
-- Direct API calls instead of using maze wrapper methods (−5 pts)
+.. list-table::
+   :widths: 20 80
+   :stub-columns: 1
+   :class: compact-table
 
----------------------------------------------------------
-Submission Requirements
----------------------------------------------------------
+   * - **Points**
+     - **Criteria**
+   * - 9–10 pts
+     - DFS adheres to specified priority (N, E, S, W); maintains visited set; produces a valid path; **conditional replan** triggers only when newly detected walls block the remaining path; correct goal selection behavior; stack/path reversal handled correctly.
+   * - 6–8 pts
+     - DFS mostly correct; minor mistakes (e.g., occasional priority violation or edge case in replan); path reversal or visited handling slightly flawed but recoverable.
+   * - 3–5 pts
+     - DFS present but frequently incorrect; inconsistent priority; improper visited handling; replan logic missing or largely ineffective.
+   * - 0–2 pts
+     - DFS non-functional or absent.
 
-- Create zip file named: ``final_project_group#.zip`` (replace # with your group number)
-- Include all source code in proper directory structure as specified
-- Include all documentation files (design doc, UML, README) in ``doc/`` folder
-- Include demo video file (MP4 format preferred, max 100MB) showing simulator running
-- Submit via Canvas before the specified deadline
-- Late penalty: 10% per day up to 3 days, then 0 points
+C++{} Core Guidelines & Best Practices (10 pts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
----------------------------------------------------------
-Tips for Success
----------------------------------------------------------
+.. list-table::
+   :widths: 20 80
+   :stub-columns: 1
+   :class: compact-table
 
-- Start with the maze class API wrapper methods and test them individually with the simulator
-- Implement random goal selection early and test with different seeds
-- Test API calls through the maze wrapper methods frequently during development
-- Implement one system at a time and test integration thoroughly before moving to the next
-- Ensure all API interactions go through the maze class, not direct API calls
-- Focus on making scanning configuration changes produce measurable and visible behavioral differences
-- Use the logging function through maze wrapper extensively for debugging
-- Document your design decisions as you implement to make the design document easier to write
-- Test both robot configurations thoroughly and measure performance differences
-- Record the video while actually testing to capture authentic behavior
-- Start documentation early — don't leave it until the end
-- Use version control (git) to track changes and coordinate group work
-- Test the reset detection functionality thoroughly to ensure proper program flow control
+   * - **Points**
+     - **Criteria**
+   * - 9–10 pts
+     - Strong adherence to C++ Core Guidelines and best practices (encapsulation, RAII, const-correctness, uniform initialization, clear ownership, error handling, naming consistency, no globals, warnings clean with :code:`-Wall -Wextra -pedantic-errors`).
+   * - 6–8 pts
+     - Generally good practices; a few inconsistencies (e.g., occasional non-const, mixed naming, minor warnings).
+   * - 3–5 pts
+     - Several guideline violations; unclear ownership or resource handling; frequent warnings.
+   * - 0–2 pts
+     - Poor practices; widespread guideline violations; unstable build.
 
----------------------------------------------------------
-Common Pitfalls to Avoid
----------------------------------------------------------
+Encapsulation, Composition & Aggregation Realization (5 pts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Making direct API calls instead of using maze class wrapper methods
-- Creating new maze/algorithm instances for each robot run — these should be shared with ``shared_ptr`` and reused
-- Forgetting to use the ``micro_mouse`` namespace for all classes and the API
-- Not using ``snake_case`` naming convention consistently throughout the codebase
-- Modifying the provided API implementation instead of just calling the static methods through wrappers
-- Not implementing random goal selection or having it select the same goal every time
-- Not demonstrating clear and measurable behavioral differences between robot configurations
-- Making configuration changes that don't affect robot behavior in observable ways
-- Poor integration between the robot class and the shared maze/algorithm components
-- Not properly managing memory with smart pointers leading to leaks or double deletions
-- Implementing the maze and algorithm as regular classes instead of demonstrating proper aggregation
-- Not implementing the complete DFS algorithm with proper backtracking and path following
-- Forgetting to update both internal maze representation and simulator when discovering walls
-- Not following the specified search order protocol (North, East, South, West) in DFS implementation
-- Not recording a video of the actual simulator running with both configurations
-- Having a static or predetermined goal instead of random selection from the four center cells
-- Not implementing proper reset detection, causing the program to become unresponsive to simulator resets
-- Forgetting to call ``ack_reset()`` after detecting a reset, causing continuous reset detection
+.. list-table::
+   :widths: 20 80
+   :stub-columns: 1
+   :class: compact-table
 
-=================
-Project Todo List
-=================
+   * - **Points**
+     - **Criteria**
+   * - 5 pts
+     - **Composition**: Robot *owns* its Maze (lifecycle bound). **Aggregation**: Robot *uses* Algorithm without owning it (swappable). Encapsulation enforced; direct simulator API calls avoided outside the Maze wrapper.
+   * - 3–4 pts
+     - Relationships mostly realized; minor leakage of API or ownership ambiguity.
+   * - 1–2 pts
+     - Relationships partially realized or confused; some direct API bypass of wrapper.
+   * - 0 pts
+     - Relationships not implemented; direct API usage pervasive.
 
-.. todolist::
+Documentation (Doxygen & Comments) (4 pts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+   :widths: 20 80
+   :stub-columns: 1
+   :class: compact-table
+
+   * - **Points**
+     - **Criteria**
+   * - 4 pts
+     - Complete Doxygen documentation; clear, helpful comments; well-documented interfaces; brief usage notes where appropriate.
+   * - 2–3 pts
+     - Basic documentation with some missing elements; adequate comment coverage.
+   * - 1 pt
+     - Minimal documentation; poor comment quality.
+   * - 0 pts
+     - Missing or completely inadequate code documentation.
+
+Build & Simulator Integration (3 pts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+   :widths: 20 80
+   :stub-columns: 1
+   :class: compact-table
+
+   * - **Points**
+     - **Criteria**
+   * - 3 pts
+     - Project builds cleanly; runs in the simulator; correct interaction via the Maze wrapper; logging visible as required.
+   * - 2 pts
+     - Builds with minor warnings or setup friction; runs with occasional issues.
+   * - 1 pt
+     - Build/run problems requiring instructor intervention; fragile integration.
+   * - 0 pts
+     - Cannot build or run in the simulator.
+
+
+.. note::
+   
+   Bonus (up to +5 pts): BFS Implementation
+   
+   - Implement a **Breadth-First Search (BFS)** variant as an additional algorithm (polymorphic with :code:`Algorithm`) and demonstrate it on the same simulator setup.
+   - Provide a brief note comparing DFS vs. BFS characteristics in this maze context (e.g., completeness, optimality on unweighted grids, memory usage).
+   - **Reference:** `Breadth-First Search (BFS) — Wikipedia <https://en.wikipedia.org/wiki/Breadth-first_search>`_

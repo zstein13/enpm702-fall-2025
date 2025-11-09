@@ -7,8 +7,7 @@ List of assignments
 --------------------
 
 .. toctree::
-   :maxdepth: 2
-   :titlesonly:
+   :maxdepth: 4
 
    assignments/rwaIII
    assignments/rwaIV

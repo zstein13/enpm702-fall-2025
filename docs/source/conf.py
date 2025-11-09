@@ -17,6 +17,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx_design",
     "sphinx_proof",
+    "sphinx.ext.todo",
     "sphinx.ext.mathjax",
 ]
 extensions.append("sphinx.ext.todo")
@@ -25,7 +26,14 @@ todo_include_todos = True
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
 }
+proof_numbered = {
+    "theorem": True,
+    "lemma": True,
+    "algorithm": True,
+    "example": False,
+}
 
+todo_include_todos = True
 
 templates_path = ["_templates"]
 exclude_patterns = []

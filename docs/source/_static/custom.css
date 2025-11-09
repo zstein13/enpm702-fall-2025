@@ -457,3 +457,37 @@ table.docutils.compact-table {
   position: relative;
   top: 0.1rem;
 }
+
+/* Minimal left-line admonition, no icon (Furo) */
+.admonition.leftline {
+  border: none;
+  border-left: 3px solid var(--color-foreground-border);
+  background: none;
+  box-shadow: none;
+  padding: 0.4em 1em;
+  margin: 1em 0;
+  color: var(--color-foreground-primary);
+}
+
+/* The icon is here in Furo — remove it */
+.admonition.leftline > .admonition-title::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Remove the space Furo reserves for the icon */
+.admonition.leftline > .admonition-title {
+  padding-left: 0 !important;
+  background: none;
+  border: none;
+  color: var(--color-foreground-primary);
+  font-weight: 600;
+  margin-bottom: 0.3em;
+}
+
+
+.admonition-todo {
+  border-left: 3px solid var(--color-brand-primary);
+  background: none;
+}
+
