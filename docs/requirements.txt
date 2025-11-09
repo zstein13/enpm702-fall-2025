@@ -12,7 +12,6 @@ sphinx-design>=0.6
 sphinx-copybutton
 sphinxcontrib-mermaid
 sphinx-proof==0.3.0
-sphinx.ext.todo
 
 # Autodoc and type support
 sphinx-autodoc-typehints
