@@ -20,7 +20,7 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.mathjax",
 ]
-extensions.append("sphinx.ext.todo")
+
 todo_include_todos = True
 
 intersphinx_mapping = {
