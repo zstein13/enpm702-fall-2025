@@ -4,44 +4,73 @@ skinparam shadowing false
 !theme mono
 skinparam classAttributeIconSize 0
 namespace transportation {
+
+  ' Position struct for sensor mounting
+  class Position <<struct>> {
+    + x : Double
+    + y : Double
+    + z : Double
+  }
+
   ' Inheritance hierarchy
   abstract class Vehicle {
     - id : String
     - currentLocation : Location
     - status : VehicleStatus
     - route : Route
-    - sensors : List<Sensor>
+    - maxPassengers : Integer
+    - currentPassengerCount : Integer ' <-- Moved from RoboTaxi
     __
-    + {abstract} getCapacity() : Integer
+    + {abstract} drive() : void
     + updateLocation(location : Location) : void
     + getStatus() : VehicleStatus
     + setRoute(route : Route) : void
     + getRoute() : Route
+    + pickupPassenger(passenger : Passenger) : void ' <-- Updated
+    + dropoffPassenger(passenger : Passenger) : void ' <-- Updated
   }
+
   class RoboTaxi {
-    - batteryLevel : Float
-    - maxPassengers : Integer
+    - sensors : List<Sensor>
+    ' - currentPassengerCount : Integer ' <-- Removed
     __
-    + getCapacity() : Integer
-    + chargeBattery() : void
-    + completeTrip() : void
+    + drive() : void
+    + addSensor(sensor : Sensor) : void
   }
-  class RoboShuttle {
-    - maxPassengers : Integer
+
+  class Taxi {
+    - driver : Driver
     __
-    + getCapacity() : Integer
-    + addStop(stop : Location) : void
+    + drive() : void
+    + assignDriver(driver : Driver) : void
+    + removeDriver() : void
+    + getDriver() : Driver
   }
-  ' Composition - Sensors are part of Vehicle
+
+  class Driver {
+    - id : String
+    - name : String
+    - licenseNumber : String
+    - rating : Float
+    __
+    + getId() : String
+    + getName() : String
+    + getLicenseNumber() : String
+    + getRating() : Float
+  }
+
+  ' Composition - Sensors are part of RoboTaxi
   class Sensor {
     - sensorId : String
     - sensorType : SensorType
-    - locationOnVehicle : Location
+    - positionOnVehicle : Position
     __
     + readData() : SensorData
     + calibrate() : void
     + getType() : SensorType
+    + getSensorId() : String
   }
+
   enum SensorType {
     LIDAR
     CAMERA
@@ -49,6 +78,7 @@ namespace transportation {
     GPS
     IMU
   }
+
   enum VehicleStatus {
     IDLE
     IN_SERVICE
@@ -57,6 +87,7 @@ namespace transportation {
     MAINTENANCE
     OUT_OF_SERVICE
   }
+
   ' Aggregation - Fleet contains Vehicles
   class Fleet {
     - id : String
@@ -68,7 +99,10 @@ namespace transportation {
     + removeVehicle(vehicle : Vehicle) : void
     + getAvailableVehicles() : List<Vehicle>
     + dispatchVehicle(pickup : Location, dropoff : Location) : Vehicle
+    + getId() : String
+    + getOperatorName() : String
   }
+
   class Route {
     - id : String
     - waypoints : List<Location>
@@ -76,34 +110,49 @@ namespace transportation {
     + addWaypoint(location : Location) : void
     + optimizeRoute() : void
     + getDistance() : Double
+    + getId() : String
+    + getWaypointCount() : Integer
   }
+
   class Location {
     - latitude : Double
     - longitude : Double
     __
     + distanceTo(other : Location) : Double
+    + getLatitude() : Double
+    + getLongitude() : Double
   }
-  class Person {
+
+  class Passenger {
     - id : String
     - name : String
     - phoneNumber : String
     - currentVehicle : Vehicle
+    ' - fleet : Fleet ' <-- Implied by new association
     __
     + requestRide(pickup : Location, dropoff : Location) : void
-    + boardVehicle(vehicle : Vehicle) : void
-    + exitVehicle() : void
+    ' + boardVehicle(vehicle : Vehicle) : void ' <-- Removed
+    ' + exitVehicle() : void ' <-- Removed
+    + getId() : String
+    + getName() : String
   }
+
   ' Relationships
   Vehicle <|-- RoboTaxi
-  Vehicle <|-- RoboShuttle
-  Vehicle *-- Sensor
+  Vehicle <|-- Taxi
+  
+  RoboTaxi *-- Sensor
+  Taxi --> Driver : operated by
+  
   Fleet o-- Vehicle
   Vehicle "0..*" --> "0..1" Route : follows
+  
   Sensor --> SensorType : has type
-  Sensor --> Location : mounted at
+  Sensor *-- "1" Position : has position ' 
   Vehicle --> Location : located at
   Vehicle --> VehicleStatus : has status
-  Route --> Location : consists of
-  Person "0..*" --> "0..1" Vehicle : rides in
+  Route *-- "1..*" Location : consists of ' 
+  Passenger "0..*" --> "0..1" Vehicle : rides in
+  Passenger "0..*" --> "1" Fleet : requests from '
 }
 @enduml

@@ -8,9 +8,10 @@ participant "fleet : Fleet" as Fleet
 participant "taxi : RoboTaxi" as Taxi
 participant "route : Route" as Route
 participant "sensor : Sensor" as Sensor
-participant "location : Location" as Location
+participant "pickupLoc : Location" as PickupLoc
+participant "dropoffLoc : Location" as DropoffLoc
 
-Passenger -> Fleet : requestRide(pickup, dropoff)
+Passenger -> Fleet : dispatchVehicle(pickupLoc, dropoffLoc)
 activate Fleet
 
 Fleet -> Fleet : getAvailableVehicles()
@@ -20,33 +21,28 @@ activate Taxi
 Taxi --> Fleet : IDLE
 deactivate Taxi
 
-Fleet -> Route : create(routeId)
+create Route
+Fleet -> Route : new Route(routeId)
 activate Route
 Route --> Fleet : route
 deactivate Route
 
-Fleet -> Route : addWaypoint(pickup)
+Fleet -> Route : addWaypoint(pickupLoc)
 activate Route
-Route -> Location : create(pickup)
-activate Location
-deactivate Location
 Route --> Fleet : void
 deactivate Route
 
-Fleet -> Route : addWaypoint(dropoff)
+Fleet -> Route : addWaypoint(dropoffLoc)
 activate Route
-Route -> Location : create(dropoff)
-activate Location
-deactivate Location
 Route --> Fleet : void
 deactivate Route
 
 Fleet -> Route : optimizeRoute()
 activate Route
-Route -> Location : distanceTo(other)
-activate Location
-Location --> Route : Double
-deactivate Location
+Route -> PickupLoc : distanceTo(dropoffLoc)
+activate PickupLoc
+PickupLoc --> Route : Double
+deactivate PickupLoc
 Route --> Fleet : void
 deactivate Route
 
@@ -55,7 +51,7 @@ activate Taxi
 Taxi --> Fleet : void
 deactivate Taxi
 
-Fleet --> Passenger : taxi assigned
+Fleet --> Passenger : taxi
 deactivate Fleet
 
 loop While en route to pickup
@@ -64,23 +60,21 @@ loop While en route to pickup
     Sensor --> Taxi : SensorData
     deactivate Sensor
     
-    Taxi -> Location : create(newLat, newLon)
-    activate Location
-    Location --> Taxi : currentLocation
-    deactivate Location
+    Taxi -> Taxi : updateLocation(newLocation)
     
-    Taxi -> Taxi : updateLocation(currentLocation)
+    Taxi -> Taxi : drive()
 end
 
 Taxi -> Passenger : Arrived at pickup
-activate Passenger
 
-Passenger -> Taxi : boardVehicle(taxi)
+' --- Boarding sequence updated for consistency ---
+' The Passenger's physical action triggers the Taxi to update its state
+Passenger -> Taxi : (Boards vehicle)
 activate Taxi
-Taxi --> Passenger : void
+' The Taxi calls its own method, as defined in the class diagram
+Taxi -> Taxi : pickupPassenger(Passenger)
+Taxi --> Passenger : (Vehicle ready)
 deactivate Taxi
-
-deactivate Passenger
 
 loop While en route to dropoff
     Taxi -> Sensor : readData()
@@ -88,7 +82,9 @@ loop While en route to dropoff
     Sensor --> Taxi : SensorData
     deactivate Sensor
     
-    Taxi -> Taxi : updateLocation(currentLocation)
+    Taxi -> Taxi : updateLocation(newLocation)
+    
+    Taxi -> Taxi : drive()
     
     Taxi -> Route : getDistance()
     activate Route
@@ -97,15 +93,22 @@ loop While en route to dropoff
 end
 
 Taxi -> Passenger : Arrived at destination
-activate Passenger
 
-Passenger -> Taxi : exitVehicle()
+' --- Exiting sequence updated for consistency ---
+' The Passenger's physical action triggers the Taxi to update its state
+Passenger -> Taxi : (Exits vehicle)
 activate Taxi
-Taxi --> Passenger : void
+' The Taxi calls its own method, passing the passenger
+Taxi -> Taxi : dropoffPassenger(Passenger)
+Taxi --> Passenger : (Trip complete)
 deactivate Taxi
 
-deactivate Passenger
-
-Taxi -> Taxi : completeTrip()
+Taxi -> Fleet : Trip completed
+activate Fleet
+Fleet -> Taxi : setStatus(IDLE)
+activate Taxi
+Taxi --> Fleet : void
+deactivate Taxi
+deactivate Fleet
 
 @enduml

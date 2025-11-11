@@ -9,107 +9,61 @@
 namespace transportation
 {
 
-    /**
-     * @class Vehicle
-     * @brief Represents a vehicle that can follow a route
-     */
-    class Vehicle
+#pragma once
+
+#include <string>
+#include <memory>
+#include <vector>
+#include "location.hpp"
+#include "vehicle_status.hpp"
+
+    // Forward declarations to avoid circular dependencies
+    class Route;
+    class Passenger;
+
+    // Abstract base class for all vehicles.
+    class Vehicle : public std::enable_shared_from_this<Vehicle>
     {
-    private:
-        std::string id_;
-        Location current_location_;
-        std::shared_ptr<Route> route_; // Vehicle follows Route (0..1 association)
-        VehicleStatus status_{VehicleStatus::IDLE};
-
     public:
-        /**
-         * @brief Construct a new Vehicle object
-         * @param vehicle_id Unique vehicle identifier
-         * @param initial_location Starting location
-         */
-        Vehicle(const std::string &vehicle_id, const Location &initial_location)
-            : id_{vehicle_id}, current_location_{initial_location}, route_{nullptr} {}
+        // Constructor
+        Vehicle(const std::string &id, int max_passengers)
+            : id_{id},
+              max_passengers_{max_passengers} {}
 
-        /**
-         * @brief Clear the current route
-         */
-        void clear_route();
+        //destructor for base class
+        ~Vehicle() = default;
 
-        /**
-         * @brief Update vehicle's current location
-         * @param location New location
-         */
+        void drive();
+
+        // Getters
+        [[nodiscard]] std::string get_id() const noexcept { return id_; }
+        [[nodiscard]] Location get_current_location() const noexcept { return current_location_; }
+        [[nodiscard]] VehicleStatus get_status() const noexcept { return status_; }
+        [[nodiscard]] std::shared_ptr<Route> get_route() const noexcept { return route_; }
+        [[nodiscard]] int get_max_passengers() const noexcept { return max_passengers_; }
+        [[nodiscard]] int get_current_passenger_count() const noexcept { return current_passenger_count_; }
+
+        // Setters
+        void set_id(const std::string &id) { id_ = id; }
+        void set_status(VehicleStatus status) { status_ = status; }
+        void set_route(std::shared_ptr<Route> route) { route_ = route; }
+        // internal state setters
+        void set_current_location(const Location &loc) { current_location_ = loc; }
+
+        // Other methods
         void update_location(const Location &location);
+        void pickup_passenger(std::shared_ptr<Passenger> passenger);
+        void dropoff_passenger(std::shared_ptr<Passenger> passenger);
 
-        /**
-         * @brief Check if vehicle has a route assigned
-         * @return True if route is assigned, false otherwise
-         */
-        [[nodiscard]] bool has_route() const noexcept
-        {
-            return route_ != nullptr;
-        }
-
-        // Getters and Setters
-        /**
-         * @brief Get the current route
-         * @return Shared pointer to route, or nullptr if no route assigned
-         */
-        [[nodiscard]] std::shared_ptr<Route> get_route() const noexcept
-        {
-            return route_;
-        }
-
-        /**
-         * @brief Get current location
-         * @return Current vehicle location
-         */
-        [[nodiscard]] Location get_current_location() const noexcept
-        {
-            return current_location_;
-        }
-
-        /**
-         * @brief Get vehicle ID
-         * @return Vehicle identifier
-         */
-        [[nodiscard]] std::string get_id() const noexcept
-        {
-            return id_;
-        }
-
-        /**
-         * @brief Get vehicle status
-         * @return Current vehicle status
-         */
-        [[nodiscard]] VehicleStatus get_status() const noexcept
-        {
-            return status_;
-        }
-
-        std::string vehicle_status_to_string(VehicleStatus status) const noexcept;
-
-        /**
-         * @brief Set vehicle status
-         * @param new_status New status to set
-         */
-        void set_status(VehicleStatus new_status) noexcept
-        {
-            status_ = new_status;
-        }
-
-        /**
-         * @brief Set the route for the vehicle to follow
-         * @param new_route Route to follow
-         */
-        void set_route(std::shared_ptr<Route> new_route)
-        {
-            route_ = new_route;
-            if (new_route)
-            {
-                status_ = VehicleStatus::EN_ROUTE;
-            }
-        }
-    }; // class Vehicle
+    protected:
+        // Protected so subclasses can access them
+        std::string id_;
+        int max_passengers_;
+        Location current_location_;
+        VehicleStatus status_{VehicleStatus::IDLE};
+        std::shared_ptr<Route> route_;
+        int current_passenger_count_{0};
+        std::vector<std::shared_ptr<Passenger>> passengers_;
+    };
 
 } // namespace transportation

@@ -1,35 +1,49 @@
-#include "location.hpp"
 #include "vehicle.hpp"
-#include "vehicle_status.hpp"
+#include "passenger.hpp" // Include full header for method implementations
+#include "route.hpp"
+#include <iostream>
+#include <algorithm>
 
-void transportation::Vehicle::clear_route()
+void transportation::Vehicle::drive()
 {
-    route_ = nullptr;
-    status_ = VehicleStatus::IDLE;
+    std::cout << "Vehicle::drive()";
 }
 
 void transportation::Vehicle::update_location(const Location &location)
 {
-    current_location_ = location;
+    std::cout << "Vehicle " << id_ << " location updated." << '\n';
+    set_current_location(location);
 }
 
-std::string transportation::Vehicle::vehicle_status_to_string(VehicleStatus status) const noexcept
+void transportation::Vehicle::pickup_passenger(std::shared_ptr<Passenger> passenger)
 {
-    switch (status)
+    if (current_passenger_count_ < max_passengers_)
     {
-    case VehicleStatus::IDLE:
-        return "IDLE";
-    case VehicleStatus::IN_SERVICE:
-        return "IN_SERVICE";
-    case VehicleStatus::EN_ROUTE:
-        return "EN_ROUTE";
-    case VehicleStatus::CHARGING:
-        return "CHARGING";
-    case VehicleStatus::MAINTENANCE:
-        return "MAINTENANCE";
-    case VehicleStatus::OUT_OF_SERVICE:
-        return "OUT_OF_SERVICE";
-    default:
-        return "UNKNOWN";
+        current_passenger_count_++;
+        passengers_.push_back(passenger);
+        // Set the passenger's vehicle
+        passenger->set_current_vehicle(shared_from_this()); // Requires Vehicle to be managed by shared_ptr
+        std::cout << "Passenger " << passenger->get_name() << " picked up by " << id_ << '\n';
+    }
+    else
+    {
+        std::cout << "Vehicle " << id_ << " is full. Cannot pick up " << passenger->get_name() << '\n';
+    }
+}
+
+void transportation::Vehicle::dropoff_passenger(std::shared_ptr<Passenger> passenger)
+{
+    auto it = std::find(passengers_.begin(), passengers_.end(), passenger);
+    if (it != passengers_.end())
+    {
+        passengers_.erase(it);
+        current_passenger_count_--;
+        // Unset the passenger's vehicle
+        passenger->set_current_vehicle(std::weak_ptr<Vehicle>());
+        std::cout << "Passenger " << passenger->get_name() << " dropped off by " << id_ << '\n';
+    }
+    else
+    {
+        std::cout << "Passenger " << passenger->get_name() << " not found in " << id_ << '\n';
     }
 }
